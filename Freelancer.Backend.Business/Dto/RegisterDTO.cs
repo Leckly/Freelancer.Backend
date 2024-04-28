@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Freelancer.Backend.Domain.Enums;
 
-namespace Freelancer.Backend.Domain.Entities
+namespace Freelancer.Backend.Business.Dto
 {
-    public class ApplicationUser : IdentityUser<int> 
+    public class RegisterDTO
     {
+        public string Password {  get; set; }
+        public string Email {  get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string CompanyName { get; set; }
@@ -13,5 +15,6 @@ namespace Freelancer.Backend.Domain.Entities
         public string Country { get; set; }
         public string[] Tags { get; set; }
         public string Description { get; set; }
+        public UserType UserType { get; set; }
     }
 }
