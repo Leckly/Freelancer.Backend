@@ -1,11 +1,10 @@
 ﻿using Freelancer.Backend.Business.Dto;
 using Freelancer.Backend.Business.Interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Freelancer.Backend.API.Controllers
 {
-    [Route("/users")]
+    [Route("/api/users")]
     [Tags("Users")]
     [ApiController]
     public sealed class UserController : ControllerBase

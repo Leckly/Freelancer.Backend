@@ -10,6 +10,7 @@ namespace Freelancer.Backend.Business
         public static IServiceCollection AddBusiness(this IServiceCollection services)
         {
             services.AddScoped<IUserService, UserService>();
+            services.AddTransient<IEmailService, EmailService>();
             return services;
         }
     }
