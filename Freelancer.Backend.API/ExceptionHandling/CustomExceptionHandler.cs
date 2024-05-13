@@ -1,121 +1,86 @@
 ﻿using Freelancer.Backend.Domain.Exceptions;
-using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using Serilog;
 
 namespace Freelancer.Backend.API.ExceptionHandling
 {
     public sealed class CustomExceptionHandler
     {
+        private readonly RequestDelegate _next;
+
+        public CustomExceptionHandler(RequestDelegate next)
+        {
+            _next = next;
+        }
+
         public async Task Invoke(HttpContext httpContext)
         {
-            IExceptionHandlerFeature? exceptionDetails = httpContext.Features.Get<IExceptionHandlerFeature>();
-            Exception? exception = exceptionDetails?.Error;
-
-            if (exception != null && exception.GetType().IsSubclassOf(typeof(ApiBaseException)))
+            try
             {
-                await HandleApiCustomException(httpContext, exception);
+                await _next(httpContext);
+            }
+            catch (EntityNotFoundApiException ex)
+            {
+                await HandleEntityNotFoundException(httpContext, ex);
+                Log.Error(ex, "Entity not found exception.");
+            }
+            catch (ValidationApiException ex)
+            {
+                await HandleValidationException(httpContext, ex);
+                Log.Error(ex, "Validation exception.");
+            }
+            catch (UserExistApiException ex)
+            {
+                await HandleRecordExistExceptionException(httpContext, ex);
+                Log.Error(ex, "Record exist exception.");
+            }
+            catch (ApiBaseException ex)
+            {
+                await HandleGeneralException(httpContext, ex);
+                Log.Error(ex, "General exception.");
+            }
+            catch (Exception ex)
+            {
+                await HandleGeneralException(httpContext, ex);
+                Log.Error(ex, "Unhandled exception.");
             }
         }
 
-        private async Task HandleApiCustomException(HttpContext httpContext, Exception ex)
+        private static async Task HandleEntityNotFoundException(HttpContext context, Exception ex)
         {
-            var typeName = ex.GetType().Name.ToLowerInvariant();
-
-            switch(typeName)
-            {
-                case "entitynotfoundapiexception":
-                    await HandleEntityNotFoundException(httpContext, ex);
-                    break;
-                case "validationapiexception":
-                    await HandleValidationException(httpContext, ex);
-                    break;
-                case "userexistapiexception":
-                    await HandleUserExistException(httpContext, ex); 
-                    break;
-                default:
-                    await HandleGeneralException(httpContext, ex);
-                    break;
-            }
+            await HandleException(context, 404, "The specified entity has not been found.");
         }
 
-        private async Task HandleGeneralException(HttpContext httpContext, Exception ex)
+        private static async Task HandleValidationException(HttpContext context, Exception ex)
         {
-            IProblemDetailsService problemDetailsService = httpContext.RequestServices.GetRequiredService<IProblemDetailsService>();
-            IExceptionHandlerFeature? exceptionDetails = httpContext.Features.Get<IExceptionHandlerFeature>();
-
-            httpContext.Response.StatusCode = 500;
-
-            await problemDetailsService.WriteAsync(new ProblemDetailsContext
-            {
-                HttpContext = httpContext,
-                AdditionalMetadata = exceptionDetails?.Endpoint?.Metadata,
-                ProblemDetails = new ProblemDetails
-                {
-                    Status = 500,
-                    Detail = ex.Message,
-                    Title = "The unknown api custom error has occured."
-                }
-            });
+            await HandleException(context, 400, "The provided entity is invalid.");
         }
 
-        private async Task HandleUserExistException(HttpContext httpContext, Exception ex)
+        private static async Task HandleRecordExistExceptionException(HttpContext context, Exception ex)
         {
-            IProblemDetailsService problemDetailsService = httpContext.RequestServices.GetRequiredService<IProblemDetailsService>();
-            IExceptionHandlerFeature? exceptionDetails = httpContext.Features.Get<IExceptionHandlerFeature>();
-
-            httpContext.Response.StatusCode = 409;
-
-            await problemDetailsService.WriteAsync(new ProblemDetailsContext
-            {
-                HttpContext = httpContext,
-                AdditionalMetadata = exceptionDetails?.Endpoint?.Metadata,
-                ProblemDetails = new ProblemDetails
-                {
-                    Status = 409,
-                    Detail = ex.Message,
-                    Title = "User already exists."
-                }
-            });
+            await HandleException(context, 409, "Record already exist.");
         }
 
-        private async Task HandleValidationException(HttpContext httpContext, Exception ex)
+        private static async Task HandleGeneralException(HttpContext context, Exception ex)
         {
-            IProblemDetailsService problemDetailsService = httpContext.RequestServices.GetRequiredService<IProblemDetailsService>();
-            IExceptionHandlerFeature? exceptionDetails = httpContext.Features.Get<IExceptionHandlerFeature>();
-
-            httpContext.Response.StatusCode = 400;
-
-            await problemDetailsService.WriteAsync(new ProblemDetailsContext
-            {
-                HttpContext = httpContext,
-                AdditionalMetadata = exceptionDetails?.Endpoint?.Metadata,
-                ProblemDetails = new ProblemDetails
-                {
-                    Status = 400,
-                    Detail = ex.Message,
-                    Title = "The provided entity is invalid."
-                }
-            });
+            await HandleException(context, 500, "An unknown error has occured.");
         }
 
-        private async Task HandleEntityNotFoundException(HttpContext httpContext, Exception ex)
+        private static async Task HandleException(HttpContext context, int statusCode, string message)
         {
-            IProblemDetailsService problemDetailsService = httpContext.RequestServices.GetRequiredService<IProblemDetailsService>();
-            IExceptionHandlerFeature? exceptionDetails = httpContext.Features.Get<IExceptionHandlerFeature>();
+            context.Response.Clear();
+            context.Response.StatusCode = statusCode;
+            context.Response.ContentType = "application/json";
 
-            httpContext.Response.StatusCode = 404;
-
-            await problemDetailsService.WriteAsync(new ProblemDetailsContext
+            var exceptionViewModel = new ExceptionViewModel()
             {
-                HttpContext = httpContext,
-                AdditionalMetadata = exceptionDetails?.Endpoint?.Metadata,
-                ProblemDetails = new ProblemDetails
-                {
-                    Status = 500,
-                    Detail = ex.Message,
-                    Title = "The specified entity has not been found."
-                }
-            });
+                StatusCode = statusCode,
+                Message = message
+            };
+
+            var serializedException = JsonConvert.SerializeObject(exceptionViewModel);
+
+            await context.Response.WriteAsync(serializedException);
         }
     }
 }

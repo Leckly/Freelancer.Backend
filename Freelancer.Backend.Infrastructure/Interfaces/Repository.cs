@@ -6,9 +6,9 @@ namespace Freelancer.Backend.Infrastructure.Interfaces
     public abstract class Repository<T> : IRepository<T> where T : class
     {
         protected readonly DbSet<T> _dbSet;
-        protected readonly ApplicationDbContext _context;
+        protected readonly ApplicationDatabaseContext _context;
 
-        protected Repository(ApplicationDbContext context)
+        protected Repository(ApplicationDatabaseContext context)
         {
             _context = context;
             _dbSet = context.Set<T>();

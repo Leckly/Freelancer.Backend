@@ -1,31 +1,27 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Freelancer.Backend.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Freelancer.Backend.Infrastructure.Configurations
 {
-    public class RoleEntityTypeConfiguration : IEntityTypeConfiguration<IdentityRole<int>>
+    public class RoleEntityTypeConfiguration : IEntityTypeConfiguration<Role>
     {
-        public void Configure(EntityTypeBuilder<IdentityRole<int>> builder)
+        public void Configure(EntityTypeBuilder<Role> builder)
         {
-            builder.HasData(new List<IdentityRole<int>>
+            builder.ToTable("Role");
+
+            builder.Property(e => e.Name).HasMaxLength(512);
+
+            builder.HasData(new List<Role>()
             {
-                new IdentityRole<int>
+                new Role
                 {
                     Id = 1,
-                    Name = "Admin",
-                    NormalizedName = "ADMIN"
-                },
-                new IdentityRole<int>
-                {
-                    Id = 2,
-                    NormalizedName = "Employee".ToUpper(),
                     Name = "Employee"
                 },
-                new IdentityRole<int>
+                new Role
                 {
-                    Id = 3,
-                    NormalizedName = "Employeer".ToUpper(),
+                    Id = 2,
                     Name = "Employeer"
                 }
             });

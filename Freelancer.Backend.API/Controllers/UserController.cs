@@ -32,8 +32,8 @@ namespace Freelancer.Backend.API.Controllers
         [ProducesResponseType(500)]
         public async Task<IActionResult> SignIn([FromBody] LoginDTO loginDTO)
         {
-            await _userService.SignInAsync(loginDTO);
-            return Ok();
+            var user = await _userService.SignInAsync(loginDTO);
+            return Ok(user);
         }
 
         [HttpPost("signout", Name = "SingOutUser")]

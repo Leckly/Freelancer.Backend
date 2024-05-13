@@ -1,20 +1,13 @@
 using Freelancer.Backend.API.ExceptionHandling;
 using Freelancer.Backend.CompositionRoot;
-using Freelancer.Backend.Domain.Entities;
-using Freelancer.Backend.Infrastructure;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Identity;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("LocalDb");
 builder.Services.AddServices(connectionString ?? throw new ArgumentNullException());
-
-builder.Services.AddIdentity<ApplicationUser, IdentityRole<int>>()
-    .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddSignInManager()
-    .AddRoles<IdentityRole<int>>();
 
 builder.Services.AddAuthentication(options =>
 {
@@ -50,7 +43,14 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddControllers();
-builder.Services.AddProblemDetails();
+
+builder.Host.UseSerilog((context, logConf) =>
+{
+    logConf
+    .ReadFrom.Configuration(context.Configuration)
+    .Enrich.FromLogContext()
+    .WriteTo.Console();
+});
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -58,7 +58,6 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
-app.UseCustomExceptionHandler();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -66,6 +65,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<CustomExceptionHandler>();
 
 app.UseHttpsRedirection();
 

@@ -1,4 +1,5 @@
 ﻿using Freelancer.Backend.Domain.Enums;
+using Microsoft.AspNetCore.Http;
 
 namespace Freelancer.Backend.Business.Dto
 {
@@ -16,5 +17,7 @@ namespace Freelancer.Backend.Business.Dto
         public string[] Tags { get; set; }
         public string Description { get; set; }
         public UserType UserType { get; set; }
+
+        public IFormFile formFile { get; set; }
     }
 }
