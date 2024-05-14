@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using AutoMapper;
+using FluentValidation;
 using Freelancer.Backend.Business.Dto;
 using Freelancer.Backend.Business.Interfaces;
 using Freelancer.Backend.Domain;
@@ -20,18 +21,24 @@ namespace Freelancer.Backend.Business.Services
         private readonly IUserRepository _userRepository;
         private readonly IRepository<Role> _roleRepository;
         private readonly IPasswordHasher<User> _passwordHasher;
+        private readonly IPhotoContentRepository _photoContentRepository;
+        private readonly IMapper _mapper;
 
         public UserService(IHttpContextAccessor httpContextAccessor,
             IValidator<RegisterDTO> validator,
             IUserRepository userRepository,
             IRepository<Role> roleRepository,
-            IPasswordHasher<User> passwordHasher)
+            IPasswordHasher<User> passwordHasher,
+            IPhotoContentRepository photoContentRepository,
+            IMapper mapper)
         {
             _httpContext = httpContextAccessor.HttpContext;
             _validator = validator;
             _userRepository = userRepository;
             _roleRepository = roleRepository;
             _passwordHasher = passwordHasher;
+            _photoContentRepository = photoContentRepository;
+            _mapper = mapper;
         }
 
         public async Task<UserDTO> SignInAsync(LoginDTO loginDTO)
@@ -41,14 +48,14 @@ namespace Freelancer.Backend.Business.Services
                 throw new ValidationApiException();
             }
 
-            var user = await _userRepository.GetByEmailWithRoleAsync(loginDTO.Email);
+            var user = await _userRepository.GetByEmailWithRoleAsync(x => x.Email == loginDTO.Email);
             if (user == null)
             {
                 throw new EntityNotFoundApiException();
             }
 
 
-            var userExists = _passwordHasher.VerifyHashedPassword(default, user.PasswordHash, loginDTO.Password); ;
+            var userExists = _passwordHasher.VerifyHashedPassword(default, user.PasswordHash, loginDTO.Password);
             if (userExists != PasswordVerificationResult.Success)
             {
                 throw new EntityNotFoundApiException();
@@ -56,7 +63,7 @@ namespace Freelancer.Backend.Business.Services
 
             await AddCookies(user);
 
-            return new UserDTO { };
+            return _mapper.Map<UserDTO>(user);
         }
 
         public async Task SignUpAsync(RegisterDTO registerDTO)
@@ -94,6 +101,14 @@ namespace Freelancer.Backend.Business.Services
 
             newUser.UserTags = tags;
 
+            var photo = new Photo()
+            {
+                Name = "",
+                ContentType = registerDTO.File.ContentType
+            };
+
+            newUser.Photo = photo;
+
             var user = await _userRepository.GetByFilterAsync(x => x.Email == newUser.Email);
             if (user is not null)
             {
@@ -111,7 +126,23 @@ namespace Freelancer.Backend.Business.Services
                 newUser.Role = role;
             }
 
-            await _userRepository.AddAsync(newUser);
+            var addedUser = await _userRepository.AddAsync(newUser);
+
+            var again = await _userRepository.GetByEmailWithRoleAsync(x => x.Id == addedUser.Id);
+
+            again.Photo.Name = $"{addedUser.Id}.{again.Photo.ContentType.Remove(0, 6)}";
+
+            await _userRepository.UpdateAsync(addedUser.Id, again);
+
+            var buffer = new byte[registerDTO.File.Length];
+
+            using (var content = new MemoryStream(buffer))
+            {
+                await registerDTO.File.CopyToAsync(content);
+                content.Position = 0;
+
+                await _photoContentRepository.SaveUserPhotoAsync(again.Photo.Name, content);
+            }
         }
 
         public async Task SignOutAsync()
@@ -138,6 +169,18 @@ namespace Freelancer.Backend.Business.Services
                 CookieAuthenticationDefaults.AuthenticationScheme,
                 new ClaimsPrincipal(claimsIdentity),
                 authProperties);
+        }
+
+        public async Task<ReceivePhotoResponse> DownloadPhotoAsync(int userId)
+        {
+            var user = await _userRepository.GetByEmailWithRoleAsync(x => x.Id == userId);
+            if (user is null)
+            {
+                throw new EntityNotFoundApiException();
+            }
+
+            var memoryStream = await _photoContentRepository.GetUserPhotoAsync(user.Photo.Name);
+            return new ReceivePhotoResponse(memoryStream, user.Photo.ContentType, user.Photo.Name);
         }
     }
 }

@@ -11,9 +11,9 @@ namespace Freelancer.Backend.Infrastructure.Repositories
         {
         }
 
-        public async Task<User> GetByEmailWithRoleAsync(string email)
+        public async Task<User> GetByEmailWithRoleAsync(Expression<Func<User, bool>> filter)
         {
-            return await _dbSet.Include(x => x.Role).FirstOrDefaultAsync(x => x.Email == email);
+            return await _dbSet.Include(x => x.Role).Include(x => x.Photo).Include(x => x.UserTags).FirstOrDefaultAsync(filter);
         }
     }
 }

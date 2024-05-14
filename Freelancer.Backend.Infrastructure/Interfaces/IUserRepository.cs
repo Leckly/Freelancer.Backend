@@ -1,9 +1,10 @@
 ﻿using Freelancer.Backend.Domain;
+using System.Linq.Expressions;
 
 namespace Freelancer.Backend.Infrastructure.Interfaces
 {
     public interface IUserRepository : IRepository<User>
     {
-        Task<User> GetByEmailWithRoleAsync(string email);
+        Task<User> GetByEmailWithRoleAsync(Expression<Func<User, bool>> filter);
     }
 }

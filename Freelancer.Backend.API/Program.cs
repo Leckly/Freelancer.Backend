@@ -1,5 +1,8 @@
 using Freelancer.Backend.API.ExceptionHandling;
+using Freelancer.Backend.Business.Mapping;
 using Freelancer.Backend.CompositionRoot;
+using Freelancer.Backend.Infrastructure.Configurations;
+using Freelancer.Backend.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Serilog;
 
@@ -51,10 +54,13 @@ builder.Host.UseSerilog((context, logConf) =>
     .Enrich.FromLogContext()
     .WriteTo.Console();
 });
+builder.Services.AddAutoMapper(typeof(BusinessMappingProfile));
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.Configure<StorageOptions>(builder.Configuration.GetSection(StorageOptions.ConfigKey));
 builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
@@ -78,4 +84,11 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+InitializeDatabase(app);
+
 app.Run();
+
+void InitializeDatabase(WebApplication application)
+{
+    app.Services.GetRequiredService<IDbInitializer>().Initialize();
+}

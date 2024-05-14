@@ -17,7 +17,6 @@ namespace Freelancer.Backend.Business.Dto
         public string[] Tags { get; set; }
         public string Description { get; set; }
         public UserType UserType { get; set; }
-
-        public IFormFile formFile { get; set; }
+        public IFormFile File { get; set; }
     }
 }

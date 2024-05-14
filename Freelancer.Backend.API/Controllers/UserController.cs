@@ -1,5 +1,6 @@
 ﻿using Freelancer.Backend.Business.Dto;
 using Freelancer.Backend.Business.Interfaces;
+using Freelancer.Backend.Domain;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Freelancer.Backend.API.Controllers
@@ -17,13 +18,23 @@ namespace Freelancer.Backend.API.Controllers
         }
 
         [HttpPost("signin", Name = "SignUpUser")]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(201)]
         [ProducesResponseType(typeof(IDictionary<string, string>), 400)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> SignUp([FromBody] RegisterDTO registerDTO)
+        public async Task<IActionResult> SignUp([FromForm] RegisterDTO registerDTO)
         {
             await _userService.SignUpAsync(registerDTO);
             return Created();
+        }
+
+        [HttpPost("downloadPhoto/{userId}", Name = "DownloadPhoto")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(IDictionary<string, string>), 400)]
+        [ProducesResponseType(500)]
+        public async Task<IActionResult> DownloadPhoto([FromRoute] int userId)
+        {
+            var photoContent = await _userService.DownloadPhotoAsync(userId);
+            return File(photoContent.content, photoContent.contentType, photoContent.name);
         }
 
         [HttpPost("login", Name = "SignInUser")]
@@ -44,6 +55,5 @@ namespace Freelancer.Backend.API.Controllers
             await _userService.SignOutAsync();
             return Ok();
         }
-
     }
 }
