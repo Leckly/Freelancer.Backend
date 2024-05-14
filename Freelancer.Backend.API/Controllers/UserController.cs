@@ -1,6 +1,5 @@
 ﻿using Freelancer.Backend.Business.Dto;
 using Freelancer.Backend.Business.Interfaces;
-using Freelancer.Backend.Domain;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Freelancer.Backend.API.Controllers
@@ -53,6 +52,16 @@ namespace Freelancer.Backend.API.Controllers
         public async Task<IActionResult> LogOut()
         {
             await _userService.SignOutAsync();
+            return Ok();
+        }
+
+        [HttpPut("{id}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(IDictionary<string, string>), 400)]
+        [ProducesResponseType(500)]
+        public async Task<IActionResult> Update([FromBody] UpdateUserDto userDTO, [FromRoute] int id)
+        {
+            await _userService.UpdateAsync(userDTO, id);
             return Ok();
         }
     }

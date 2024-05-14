@@ -9,5 +9,6 @@ namespace Freelancer.Backend.Business.Interfaces
         Task<UserDTO> SignInAsync(LoginDTO loginDTO);
         Task SignOutAsync();
         Task<ReceivePhotoResponse> DownloadPhotoAsync(int userId);
+        Task UpdateAsync(UpdateUserDto userDTO, int id);
     }
 }

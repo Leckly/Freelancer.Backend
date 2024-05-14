@@ -182,5 +182,38 @@ namespace Freelancer.Backend.Business.Services
             var memoryStream = await _photoContentRepository.GetUserPhotoAsync(user.Photo.Name);
             return new ReceivePhotoResponse(memoryStream, user.Photo.ContentType, user.Photo.Name);
         }
+
+        public async Task UpdateAsync(UpdateUserDto userDTO, int id)
+        {
+            var user = await _userRepository.GetByEmailWithRoleAsync(x => x.Id == id);
+            if (user is null)
+            {
+                throw new EntityNotFoundApiException();
+            }
+            var oldTags = user.UserTags.ToList();
+
+            user.FirstName = userDTO.FirstName;
+            user.LastName = userDTO.LastName;
+            user.Address = userDTO.Address;
+            user.CompanyName = userDTO.CompanyName;
+            user.Nip = userDTO.Nip;
+            user.Krs = userDTO.Krs;
+            user.Description = userDTO.Description;
+
+            var newTags = new List<UserTag>();
+
+            foreach (var tag in userDTO.Tags)
+            {
+                newTags.Add(new UserTag()
+                {
+                    Name = tag,
+                    UserId = id,
+                    User = user,
+                });
+            }
+            user.UserTags = newTags;
+
+            await _userRepository.UpdateAsync(id, user, oldTags);
+        }
     }
 }
