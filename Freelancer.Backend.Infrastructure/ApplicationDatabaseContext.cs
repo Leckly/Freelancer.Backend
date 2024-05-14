@@ -15,8 +15,6 @@ public partial class ApplicationDatabaseContext : DbContext
 
     public virtual DbSet<JobPhoto> JobPhotos { get; set; }
 
-    public virtual DbSet<JobTag> JobTags { get; set; }
-
     public virtual DbSet<JobsUser> JobsUsers { get; set; }
 
     public virtual DbSet<Photo> Photos { get; set; }
@@ -29,11 +27,9 @@ public partial class ApplicationDatabaseContext : DbContext
 
     public virtual DbSet<UserJob> UserJobs { get; set; }
 
-    public virtual DbSet<UserTag> UserTags { get; set; }
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(UserTagEntityTypeConfiguration).Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(JobEntityTypeConfiguration).Assembly);
         OnModelCreatingPartial(modelBuilder);
     }
 

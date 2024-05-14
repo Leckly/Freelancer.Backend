@@ -11,9 +11,8 @@ namespace Freelancer.Backend.Business.Dto
         public string? Name { get; set; }
 
         public string? Description { get; set; }
+        public string[] Tags { get; set; }
         public virtual ICollection<User> JobUsers { get; set; } = new List<User>();
         public virtual ICollection<Photo> JobPhotos { get; set; } = new List<Photo>();
-
-        public virtual ICollection<JobTag> JobTags { get; set; } = new List<JobTag>();
     }
 }

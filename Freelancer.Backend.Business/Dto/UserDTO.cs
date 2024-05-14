@@ -31,6 +31,6 @@ namespace Freelancer.Backend.Business.Dto
 
         public virtual PhotoDto? Photo { get; set; }
 
-        public virtual List<UserTagDto> UserTags { get; set; } = new List<UserTagDto>();
+        public string[] Tags { get; set; }
     }
 }

@@ -86,20 +86,9 @@ namespace Freelancer.Backend.Business.Services
                 Krs = registerDTO.KRS,
                 Nip = registerDTO.NIP,
                 Country = registerDTO.Country,
-                Description = registerDTO.Description
+                Description = registerDTO.Description,
+                Tags = registerDTO.Tags
             };
-
-            var tags = new List<UserTag>();
-            foreach (var tag in registerDTO.Tags)
-            {
-                tags.Add(new UserTag()
-                {
-                    Name = tag,
-                    User = newUser
-                });
-            }
-
-            newUser.UserTags = tags;
 
             var photo = new Photo()
             {
@@ -190,7 +179,6 @@ namespace Freelancer.Backend.Business.Services
             {
                 throw new EntityNotFoundApiException();
             }
-            var oldTags = user.UserTags.ToList();
 
             user.FirstName = userDTO.FirstName;
             user.LastName = userDTO.LastName;
@@ -199,21 +187,9 @@ namespace Freelancer.Backend.Business.Services
             user.Nip = userDTO.Nip;
             user.Krs = userDTO.Krs;
             user.Description = userDTO.Description;
+            user.Tags = userDTO.Tags;
 
-            var newTags = new List<UserTag>();
-
-            foreach (var tag in userDTO.Tags)
-            {
-                newTags.Add(new UserTag()
-                {
-                    Name = tag,
-                    UserId = id,
-                    User = user,
-                });
-            }
-            user.UserTags = newTags;
-
-            await _userRepository.UpdateAsync(id, user, oldTags);
+            await _userRepository.UpdateAsync(id, user);
         }
 
         public async Task<IEnumerable<UserDTO>> GetAllAsync(int type, int skip, int take)

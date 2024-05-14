@@ -23,6 +23,7 @@ public partial class User
     public string? PasswordHash { get; set; }
 
     public string? Email { get; set; }
+    public string[] Tags { get; set; }
 
     public int? RoleId { get; set; }
 
@@ -36,6 +37,4 @@ public partial class User
     public virtual ICollection<Rating> Ratings { get; set; } = new List<Rating>();
 
     public virtual Role? Role { get; set; }
-
-    public virtual ICollection<UserTag> UserTags { get; set; } = new List<UserTag>();
 }
