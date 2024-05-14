@@ -215,5 +215,24 @@ namespace Freelancer.Backend.Business.Services
 
             await _userRepository.UpdateAsync(id, user, oldTags);
         }
+
+        public async Task<IEnumerable<UserDTO>> GetAllAsync(int type, int skip, int take)
+        {
+            var users = await _userRepository.GetAllAsync();
+
+            return users.Where(x => x.RoleId == type).Skip(skip).Take(take).Select(x => _mapper.Map<UserDTO>(x)).ToList();
+        }
+
+        public async Task<UserDTO> GetAsync(int id)
+        {
+            var user = await _userRepository.GetByEmailWithRoleAsync(x => x.Id == id);
+
+            if (user is null)
+            {
+                throw new EntityNotFoundApiException();
+            }
+
+            return _mapper.Map<UserDTO>(user);
+        }
     }
 }

@@ -64,5 +64,25 @@ namespace Freelancer.Backend.API.Controllers
             await _userService.UpdateAsync(userDTO, id);
             return Ok();
         }
+
+        [HttpGet]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(IDictionary<string, string>), 400)]
+        [ProducesResponseType(500)]
+        public async Task<IActionResult> GetAllUsers([FromQuery] int type, [FromQuery] int skip, [FromQuery] int take)
+        {
+            var users = await _userService.GetAllAsync(type, skip, take);
+            return Ok(users);
+        }
+
+        [HttpGet("{id}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(IDictionary<string, string>), 400)]
+        [ProducesResponseType(500)]
+        public async Task<IActionResult> GetUser(int id)
+        {
+            var user = await _userService.GetAsync(id);
+            return Ok(user);
+        }
     }
 }

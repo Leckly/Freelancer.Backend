@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Freelancer.Backend.Domain;
+﻿namespace Freelancer.Backend.Domain;
 
 public partial class JobTag
 {
@@ -11,5 +8,5 @@ public partial class JobTag
 
     public string Name { get; set; } = null!;
 
-    public virtual User Job { get; set; } = null!;
+    public virtual Job Job { get; set; } = null!;
 }

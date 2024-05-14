@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Freelancer.Backend.Domain;
+﻿namespace Freelancer.Backend.Domain;
 
 public partial class Job
 {
@@ -14,4 +11,8 @@ public partial class Job
     public string? Description { get; set; }
 
     public virtual User? User { get; set; }
+    public virtual ICollection<User> JobUsers { get; set; } = new List<User>();
+    public virtual ICollection<Photo> JobPhotos { get; set; } = new List<Photo>();
+
+    public virtual ICollection<JobTag> JobTags { get; set; } = new List<JobTag>();
 }

@@ -1,7 +1,6 @@
 ﻿using Freelancer.Backend.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System.Reflection.Emit;
 
 namespace Freelancer.Backend.Infrastructure.Configurations
 {
@@ -13,6 +12,9 @@ namespace Freelancer.Backend.Infrastructure.Configurations
 
             builder.Property(e => e.Description).HasMaxLength(512);
             builder.Property(e => e.Name).HasMaxLength(255);
+
+            builder.HasMany(x => x.JobUsers)
+                .WithMany(x => x.JobsUser);
 
             builder.HasOne(d => d.User).WithMany(p => p.Jobs)
                 .HasForeignKey(d => d.UserId)

@@ -28,9 +28,8 @@ public partial class User
 
     public int? PhotoId { get; set; }
 
-    public virtual ICollection<JobTag> JobTags { get; set; } = new List<JobTag>();
-
     public virtual ICollection<Job> Jobs { get; set; } = new List<Job>();
+    public virtual ICollection<Job> JobsUser { get; set; } = new List<Job>();
 
     public virtual Photo? Photo { get; set; }
 
