@@ -32,7 +32,7 @@ public partial class User
     public virtual ICollection<Job> Jobs { get; set; } = new List<Job>();
     public virtual ICollection<Job> JobsUser { get; set; } = new List<Job>();
 
-    public virtual Photo? Photo { get; set; }
+    public virtual UserPhoto? Photo { get; set; }
 
     public virtual ICollection<Rating> Ratings { get; set; } = new List<Rating>();
 

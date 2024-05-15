@@ -8,17 +8,13 @@ namespace Freelancer.Backend.Infrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<JobPhoto> builder)
         {
+            builder.HasKey(x => x.Id);
             builder
-                .HasNoKey()
                 .ToTable("JobPhoto");
 
-            builder.HasOne(d => d.Job).WithMany()
+            builder.HasOne(d => d.Job).WithMany(x => x.JobPhotos)
                 .HasForeignKey(d => d.JobId)
                 .HasConstraintName("FK__JobPhoto__JobId__07C12930");
-
-            builder.HasOne(d => d.Photo).WithMany()
-                .HasForeignKey(d => d.PhotoId)
-                .HasConstraintName("FK__JobPhoto__PhotoI__08B54D69");
         }
     }
 }

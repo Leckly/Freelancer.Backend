@@ -25,9 +25,10 @@ namespace Freelancer.Backend.Infrastructure.Configurations
                 .HasColumnName("NIP");
             builder.Property(e => e.PasswordHash).HasMaxLength(255);
 
-            builder.HasOne(d => d.Photo).WithMany(p => p.Users)
-                .HasForeignKey(d => d.PhotoId)
-                .HasConstraintName("FK__User__PhotoId__7F2BE32F");
+            builder.HasOne(a => a.Photo)
+                    .WithOne(b => b.User)
+                    .HasForeignKey<UserPhoto>(b => b.UserId)
+                    .HasConstraintName("FK__User__PhotoId__7F2BE32F");
 
             builder.HasOne(d => d.Role).WithMany(p => p.Users)
                 .HasForeignKey(d => d.RoleId)

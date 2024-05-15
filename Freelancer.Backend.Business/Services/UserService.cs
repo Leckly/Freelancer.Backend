@@ -90,7 +90,7 @@ namespace Freelancer.Backend.Business.Services
                 Tags = registerDTO.Tags
             };
 
-            var photo = new Photo()
+            var photo = new UserPhoto()
             {
                 Name = "",
                 ContentType = registerDTO.File.ContentType

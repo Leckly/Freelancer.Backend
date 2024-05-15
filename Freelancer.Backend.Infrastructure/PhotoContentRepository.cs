@@ -51,7 +51,32 @@ namespace Freelancer.Backend.Infrastructure
         private string GetBlobUserFilePath(string filename)
             => Path.Combine(_userPhotoStoragePath, filename);
 
-        private string GetBlobJobFilePath(int postId, string fileName, int photoId)
-            => Path.Combine(_userPhotoStoragePath, postId.ToString(), $"{photoId}_{fileName}");
+        private string GetBlobJobFilePath(int jobId, string fileName)
+            => Path.Combine(_jobPhotoStoragePath, jobId.ToString(), $"{fileName}");
+
+        public async Task SaveJobPhotoAsync(int jobId, string filename, MemoryStream content)
+        {
+            var blobPath = GetBlobJobFilePath(jobId, filename);
+            _fileService.CreateDirectory(Path.Combine(_jobPhotoStoragePath, jobId.ToString()));
+            await _fileService.SaveFileContentAsync(blobPath, content);
+        }
+
+        public async Task<MemoryStream> GetJobPhotoAsync(int jobId,string filename)
+        {
+            var blobPath = GetBlobJobFilePath(jobId, filename);
+
+            if (!File.Exists(blobPath))
+            {
+                throw new EntityNotFoundApiException();
+            }
+
+            return await _fileService.GetFileContentAsync(blobPath);
+        }
+
+        public void DeleteJobPhotoContent(int jobId, string filename)
+        {
+            var blobPath = GetBlobJobFilePath(jobId, filename);
+            _fileService.DeleteFileContent(blobPath);
+        }
     }
 }

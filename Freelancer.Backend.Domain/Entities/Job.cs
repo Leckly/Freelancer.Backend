@@ -13,5 +13,5 @@ public partial class Job
 
     public virtual User? User { get; set; }
     public virtual ICollection<User> JobUsers { get; set; } = new List<User>();
-    public virtual ICollection<Photo> JobPhotos { get; set; } = new List<Photo>();
+    public virtual ICollection<JobPhoto> JobPhotos { get; set; } = new List<JobPhoto>();
 }

@@ -1,4 +1,5 @@
 ﻿using Freelancer.Backend.Domain;
+using Microsoft.AspNetCore.Http;
 
 namespace Freelancer.Backend.Business.Dto
 {
@@ -13,6 +14,7 @@ namespace Freelancer.Backend.Business.Dto
         public string? Description { get; set; }
         public string[] Tags { get; set; }
         public virtual ICollection<User> JobUsers { get; set; } = new List<User>();
-        public virtual ICollection<Photo> JobPhotos { get; set; } = new List<Photo>();
+        public virtual ICollection<UserPhoto> JobPhotos { get; set; } = new List<UserPhoto>();
+        public IFormFileCollection FormFiles { get; set; }
     }
 }

@@ -8,9 +8,10 @@ namespace Freelancer.Backend.Business.Mapping
     {
         public BusinessMappingProfile()
         {
-            CreateMap<User,UserDTO>().ReverseMap();
-            CreateMap<Role,RoleDto>().ReverseMap();
-            CreateMap<Photo,PhotoDto>().ReverseMap();
+            CreateMap<User, UserDTO>().ReverseMap();
+            CreateMap<Role, RoleDto>().ReverseMap();
+            CreateMap<UserPhoto, PhotoDto>().ReverseMap();
+            CreateMap<JobDto, Job>().ReverseMap();
         }
     }
 }
