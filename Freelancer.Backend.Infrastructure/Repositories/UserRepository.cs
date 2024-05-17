@@ -15,5 +15,10 @@ namespace Freelancer.Backend.Infrastructure.Repositories
         {
             return await _dbSet.Include(x => x.Role).Include(x => x.Photo).FirstOrDefaultAsync(filter);
         }
+
+        public async Task<IEnumerable<User>> GetAllWithIncludesAsync()
+        {
+            return await _dbSet.Include(x => x.Role).Include(x => x.Photo).ToListAsync();
+        }
     }
 }

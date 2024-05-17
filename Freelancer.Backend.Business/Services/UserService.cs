@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 
 namespace Freelancer.Backend.Business.Services
@@ -192,9 +193,20 @@ namespace Freelancer.Backend.Business.Services
             await _userRepository.UpdateAsync(id, user);
         }
 
-        public async Task<IEnumerable<UserDTO>> GetAllAsync(int type, int skip, int take)
+        public async Task<IEnumerable<UserDTO>> GetAllAsync(int type, int skip, int take, string searchBar, string[] tags)
         {
-            var users = await _userRepository.GetAllAsync();
+            var users = await _userRepository.GetAllWithIncludesAsync();
+
+            if (!searchBar.IsNullOrEmpty())
+            {
+                users = users
+                    .Where(x => x.CompanyName.Contains(searchBar) || x.Description.Contains(searchBar));
+            }
+
+            if (tags != null && tags.Length > 0)
+            {
+                users = users.Where(x => tags.Intersect(x.Tags).Any());
+            }
 
             return users.Where(x => x.RoleId == type).Skip(skip).Take(take).Select(x => _mapper.Map<UserDTO>(x)).ToList();
         }

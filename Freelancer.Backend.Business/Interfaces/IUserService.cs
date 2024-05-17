@@ -10,7 +10,7 @@ namespace Freelancer.Backend.Business.Interfaces
         Task SignOutAsync();
         Task<ReceivePhotoResponse> DownloadPhotoAsync(int userId);
         Task UpdateAsync(UpdateUserDto userDTO, int id);
-        Task<IEnumerable<UserDTO>> GetAllAsync(int type, int skip, int take);
+        Task<IEnumerable<UserDTO>> GetAllAsync(int type, int skip, int take, string searchBar, string[] tags);
         Task<UserDTO> GetAsync(int id);
     }
 }
