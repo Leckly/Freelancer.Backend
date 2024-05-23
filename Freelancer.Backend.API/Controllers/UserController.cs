@@ -69,7 +69,7 @@ namespace Freelancer.Backend.API.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(typeof(IDictionary<string, string>), 400)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> GetAllUsers([FromQuery] int type, [FromQuery] int skip, [FromQuery] int take, [FromQuery] string searchBar, [FromQuery] string[] tags)
+        public async Task<IActionResult> GetAllUsers([FromQuery] int type, [FromQuery] int skip, [FromQuery] int take, [FromQuery] string? searchBar, [FromQuery] string[]? tags)
         {
             var users = await _userService.GetAllAsync(type, skip, take, searchBar, tags);
             return Ok(users);

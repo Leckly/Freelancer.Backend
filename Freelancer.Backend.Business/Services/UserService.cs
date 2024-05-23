@@ -200,7 +200,11 @@ namespace Freelancer.Backend.Business.Services
             if (!searchBar.IsNullOrEmpty())
             {
                 users = users
-                    .Where(x => x.CompanyName.Contains(searchBar) || x.Description.Contains(searchBar));
+                    .Where(x => 
+                    x.CompanyName.Contains(searchBar) || 
+                    x.Description.Contains(searchBar) || 
+                    x.FirstName.Contains(searchBar) || 
+                    x.LastName.Contains(searchBar));
             }
 
             if (tags != null && tags.Length > 0)

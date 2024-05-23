@@ -14,6 +14,7 @@ namespace Freelancer.Backend.Business
         {
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IJobService, JobService>();
+            services.AddScoped<IRateService, RateService>();
             services.AddTransient<IEmailService, EmailService>();
             services.AddValidatorsFromAssemblyContaining<RegisterValidator>();
             services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();

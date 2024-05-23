@@ -17,6 +17,7 @@ namespace Freelancer.Backend.Infrastructure
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IRepository<Role>, RoleRepository>();
             services.AddScoped<IJobRepository, JobRepository>();
+            services.AddScoped<IRepository<Rating>, RateRepository>();
             services.AddTransient<IFileService, FileService>();
             services.AddTransient<IPhotoContentRepository, PhotoContentRepository>();
             services.AddTransient<IDbInitializer, DbInitializer>();
