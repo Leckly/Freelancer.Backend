@@ -41,11 +41,11 @@ namespace Freelancer.Backend.Business.Services
             await _ratingRepository.DeleteAsync(id);
         }
 
-        public async Task<IEnumerable<RateDto>> GetAllAsync(int userId)
+        public async Task<IEnumerable<RateDto>> GetAllAsync(int userId, int skip, int take)
         {
             var ratings = await _ratingRepository.GetAllAsync();
 
-            ratings = ratings.Where(x => x.UserId == userId);
+            ratings = ratings.Where(x => x.UserId == userId).Skip(skip).Take(take);
 
             return ratings.Select( x => _mapper.Map<RateDto>(x));
         }

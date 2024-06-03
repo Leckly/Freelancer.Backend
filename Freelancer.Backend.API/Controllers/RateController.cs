@@ -38,9 +38,9 @@ namespace Freelancer.Backend.API.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetAllUsers([FromQuery] int id)
+        public async Task<IActionResult> GetAllRates([FromQuery] int id, [FromQuery] int skip, [FromQuery] int take)
         {
-            var ratings = await _rateService.GetAllAsync(id);
+            var ratings = await _rateService.GetAllAsync(id, skip, take);
 
             return Ok(ratings);
         }
