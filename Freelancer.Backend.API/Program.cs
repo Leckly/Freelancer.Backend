@@ -5,6 +5,7 @@ using Freelancer.Backend.Infrastructure.Configurations;
 using Freelancer.Backend.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Serilog;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,5 +1,6 @@
 ﻿using Freelancer.Backend.Business.Dto;
 using Freelancer.Backend.Business.Interfaces;
+using Freelancer.Backend.Business.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Freelancer.Backend.API.Controllers
@@ -18,7 +19,7 @@ namespace Freelancer.Backend.API.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] int skip, [FromQuery] int take, [FromQuery] string searchBar, [FromQuery] string[] tags)
+        public async Task<IActionResult> GetAll([FromQuery] int skip, [FromQuery] int take, [FromQuery] string? searchBar, [FromQuery] string[] tags)
         {
             var jobs = await _jobService.GetAllAsync(skip, take, searchBar, tags);
             return Ok(jobs);
@@ -32,7 +33,7 @@ namespace Freelancer.Backend.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add([FromForm] JobDto jobDto)
+        public async Task<IActionResult> Add([FromForm] JobCreationRequest jobDto)
         {
             var job = await _jobService.AddAsync(jobDto);
             return Created("Add", job);
@@ -49,6 +50,23 @@ namespace Freelancer.Backend.API.Controllers
         public async Task<IActionResult> Update(int id, JobDto jobDto)
         {
             await _jobService.UpdateAsync(id, jobDto);
+            return Ok();
+        }
+
+        [HttpPost("downloadJobPhoto/{jobId}/{photoId}", Name = "DownloadJobPhoto")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(IDictionary<string, string>), 400)]
+        [ProducesResponseType(500)]
+        public async Task<IActionResult> DownloadJobPhoto([FromRoute] int jobId, [FromRoute] int photoId)
+        {
+            var photoContent = await _jobService.GetJobPhoto(jobId, photoId);
+            return File(photoContent.content, photoContent.contentType, photoContent.name);
+        }
+
+        [HttpPatch("changeJobStatus/{id}")]
+        public async Task<IActionResult> ChangeJobStatus(int id)
+        {
+            await _jobService.UpdateJobStatus(id);
             return Ok();
         }
     }

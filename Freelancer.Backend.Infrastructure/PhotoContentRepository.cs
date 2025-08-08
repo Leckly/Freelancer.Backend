@@ -51,19 +51,19 @@ namespace Freelancer.Backend.Infrastructure
         private string GetBlobUserFilePath(string filename)
             => Path.Combine(_userPhotoStoragePath, filename);
 
-        private string GetBlobJobFilePath(int jobId, string fileName)
-            => Path.Combine(_jobPhotoStoragePath, jobId.ToString(), $"{fileName}");
+        private string GetBlobJobFilePath(/*int jobId, */string fileName)
+            => Path.Combine(_jobPhotoStoragePath, /*jobId.ToString(),*/ $"{fileName}");
 
-        public async Task SaveJobPhotoAsync(int jobId, string filename, MemoryStream content)
+        public async Task SaveJobPhotoAsync(/*int jobId, */string filename, MemoryStream content)
         {
-            var blobPath = GetBlobJobFilePath(jobId, filename);
-            _fileService.CreateDirectory(Path.Combine(_jobPhotoStoragePath, jobId.ToString()));
+            var blobPath = GetBlobJobFilePath(/*jobId, */filename);
+            //_fileService.CreateDirectory(Path.Combine(_jobPhotoStoragePath, jobId.ToString()));
             await _fileService.SaveFileContentAsync(blobPath, content);
         }
 
         public async Task<MemoryStream> GetJobPhotoAsync(int jobId,string filename)
         {
-            var blobPath = GetBlobJobFilePath(jobId, filename);
+            var blobPath = GetBlobJobFilePath(filename);
 
             if (!File.Exists(blobPath))
             {
@@ -75,7 +75,7 @@ namespace Freelancer.Backend.Infrastructure
 
         public void DeleteJobPhotoContent(int jobId, string filename)
         {
-            var blobPath = GetBlobJobFilePath(jobId, filename);
+            var blobPath = GetBlobJobFilePath(filename);
             _fileService.DeleteFileContent(blobPath);
         }
     }

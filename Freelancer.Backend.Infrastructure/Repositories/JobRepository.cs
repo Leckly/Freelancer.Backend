@@ -13,8 +13,12 @@ namespace Freelancer.Backend.Infrastructure.Repositories
 
         public async Task<IEnumerable<Job>> GetAllWithIncludesAsync()
         {
-            //return await _dbSet.Include(x => x.User).Include(x => x.JobTags).Include(x => x.JobPhotos).ToListAsync();
-            return null;
+            return await _dbSet.Include(x => x.User).Include(x => x.JobPhotos).ToListAsync();
+        }
+
+        public async Task<IEnumerable<Job>> GetAllWithPhotosAsync()
+        {
+            return await _dbSet.Include(x => x.JobPhotos).ToListAsync();
         }
 
         public async Task<Job> GetByFilterWithPhotosAsync(Expression<Func<Job, bool>> filter)

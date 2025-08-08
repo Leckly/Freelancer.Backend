@@ -6,8 +6,11 @@ namespace Freelancer.Backend.Business.Interfaces
     {
         Task<IEnumerable<JobDto>> GetAllAsync(int skip, int take, string searchBar, string[] tags);
         Task<JobDto> GetByIdAsync(int id);
-        Task<JobDto> AddAsync(JobDto jobDto);
+        Task<JobDto> AddAsync(JobCreationRequest jobDto);
         Task DeleteAsync(int id);
         Task UpdateAsync(int id, JobDto jobDto);
+
+        Task<ReceivePhotoResponse> GetJobPhoto(int jobId, int photoId);
+        Task UpdateJobStatus(int jobId);
     }
 }

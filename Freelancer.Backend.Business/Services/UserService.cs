@@ -169,6 +169,11 @@ namespace Freelancer.Backend.Business.Services
                 throw new EntityNotFoundApiException();
             }
 
+            if (user.Photo is null)
+            {
+                throw new EntityNotFoundApiException();
+            }
+
             var memoryStream = await _photoContentRepository.GetUserPhotoAsync(user.Photo.Name);
             return new ReceivePhotoResponse(memoryStream, user.Photo.ContentType, user.Photo.Name);
         }

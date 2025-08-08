@@ -1,4 +1,4 @@
-﻿using Freelancer.Backend.Domain;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Freelancer.Backend.Business.Dto
 {
@@ -6,6 +6,7 @@ namespace Freelancer.Backend.Business.Dto
     {
         public int Id { get; set; }
 
+        [MaxLength(10)]
         public byte Rate { get; set; }
 
         public string Comment { get; set; } = null!;

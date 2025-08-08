@@ -1,6 +1,4 @@
-﻿using Freelancer.Backend.Domain;
-
-namespace Freelancer.Backend.Business.Dto
+﻿namespace Freelancer.Backend.Business.Dto
 {
     public class UserDTO
     {

@@ -1,31 +1,28 @@
 ﻿using Freelancer.Backend.Business.Dto;
 using Freelancer.Backend.Business.Interfaces;
-using System.Net.Mail;
+using MailKit.Net.Smtp;
+using MailKit.Security;
+using MimeKit;
+using MimeKit.Text;
 
 namespace Freelancer.Backend.Business.Services
 {
-    public class EmailService : IEmailService, IDisposable
+    public class EmailService : IEmailService
     {
-        private readonly SmtpClient smtpClient;
-
-        public EmailService()
+        public async Task SendEmail(EmailDto emailDto)
         {
-            smtpClient = new SmtpClient();
-        }
+            var email = new MimeMessage();
+            email.From.Add(MailboxAddress.Parse(""));
+            email.To.Add(MailboxAddress.Parse(""));
+            email.Subject = emailDto.Subject;
+            email.Body = new TextPart(TextFormat.Html) { Text = emailDto.Body };
 
-        ~EmailService() 
-        {
-            Dispose();
-        }
+            using var smtp = new SmtpClient();
+            await smtp.ConnectAsync("", 0, SecureSocketOptions.StartTls);
 
-        public void Dispose()
-        {
-            smtpClient.Dispose();
-        }
-
-        public Task SendEmail(EmailDto emailDto)
-        {
-            throw new NotImplementedException();
+            await smtp.AuthenticateAsync("", "");
+            await smtp.SendAsync(email);
+            await smtp.DisconnectAsync(true);
         }
     }
 }
