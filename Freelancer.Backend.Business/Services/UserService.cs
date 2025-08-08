@@ -217,7 +217,13 @@ namespace Freelancer.Backend.Business.Services
                 users = users.Where(x => tags.Intersect(x.Tags).Any());
             }
 
-            return users.Where(x => x.RoleId == type).Skip(skip).Take(take).Select(x => _mapper.Map<UserDTO>(x)).ToList();
+            var id = _httpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+
+            if (id is null)
+            {
+                return users.Where(x => x.RoleId == type).Skip(skip).Take(take).Select(x => _mapper.Map<UserDTO>(x)).ToList();
+            }
+            return users.Where(x => x.RoleId == type && x.Id != int.Parse(id)).Skip(skip).Take(take).Select(x => _mapper.Map<UserDTO>(x)).ToList();
         }
 
         public async Task<UserDTO> GetAsync(int id)
