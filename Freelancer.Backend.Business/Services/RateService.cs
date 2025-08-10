@@ -4,6 +4,7 @@ using Freelancer.Backend.Business.Interfaces;
 using Freelancer.Backend.Domain;
 using Freelancer.Backend.Domain.Exceptions;
 using Freelancer.Backend.Infrastructure.Interfaces;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Freelancer.Backend.Business.Services
 {
@@ -48,6 +49,22 @@ namespace Freelancer.Backend.Business.Services
             ratings = ratings.Where(x => x.UserId == userId).Skip(skip).Take(take);
 
             return ratings.Select( x => _mapper.Map<RateDto>(x));
+        }
+
+        public async Task<int> GetAverageRating(int id)
+        {
+            var ratings = await _ratingRepository.GetAllAsync();
+
+            ratings = ratings.Where(x => x.UserId == id).ToList();
+
+            if (ratings.IsNullOrEmpty())
+            {
+                return 0;
+            }
+
+            var average = ratings.Average(x => x.Rate);
+
+            return (int)Math.Round(average, 0);
         }
     }
 }

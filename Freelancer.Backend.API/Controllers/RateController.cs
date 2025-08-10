@@ -1,6 +1,5 @@
 ﻿using Freelancer.Backend.Business.Dto;
 using Freelancer.Backend.Business.Interfaces;
-using Freelancer.Backend.Business.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Freelancer.Backend.API.Controllers
@@ -43,6 +42,14 @@ namespace Freelancer.Backend.API.Controllers
             var ratings = await _rateService.GetAllAsync(id, skip, take);
 
             return Ok(ratings);
+        }
+
+        [HttpGet("getAverageRating")]
+        public async Task<IActionResult> GetAverageRating([FromQuery] int id)
+        {
+            var average = await _rateService.GetAverageRating(id);
+
+            return Ok(average);
         }
     }
 }

@@ -7,5 +7,6 @@ namespace Freelancer.Backend.Business.Interfaces
         Task<IEnumerable<RateDto>> GetAllAsync(int userId, int skip, int take);
         Task AddAsync(RateDto rateDto);
         Task DeleteAsync(int id);
+        Task<int> GetAverageRating(int id);
     }
 }
