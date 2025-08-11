@@ -221,7 +221,7 @@ namespace Freelancer.Backend.Business.Services
 
             if (id is null)
             {
-                return users.Where(x => x.RoleId == type).Skip(skip).Take(take).Select(x => _mapper.Map<UserDTO>(x)).ToList();
+                return users.Where(x => x.RoleId == type + 1).Skip(skip).Take(take).Select(x => _mapper.Map<UserDTO>(x)).ToList();
             }
             return users.Where(x => x.RoleId == type && x.Id != int.Parse(id)).Skip(skip).Take(take).Select(x => _mapper.Map<UserDTO>(x)).ToList();
         }

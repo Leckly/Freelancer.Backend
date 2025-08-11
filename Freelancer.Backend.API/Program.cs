@@ -62,6 +62,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.Configure<StorageOptions>(builder.Configuration.GetSection(StorageOptions.ConfigKey));
+builder.Services.Configure<EmailOptions>(builder.Configuration.GetSection(EmailOptions.ConfigKey));
 builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
