@@ -223,7 +223,7 @@ namespace Freelancer.Backend.Business.Services
             {
                 return users.Where(x => x.RoleId == type + 1).Skip(skip).Take(take).Select(x => _mapper.Map<UserDTO>(x)).ToList();
             }
-            return users.Where(x => x.RoleId == type && x.Id != int.Parse(id)).Skip(skip).Take(take).Select(x => _mapper.Map<UserDTO>(x)).ToList();
+            return users.Where(x => x.RoleId == type + 1 && x.Id != int.Parse(id)).Skip(skip).Take(take).Select(x => _mapper.Map<UserDTO>(x)).ToList();
         }
 
         public async Task<UserDTO> GetAsync(int id)
