@@ -15,7 +15,7 @@ namespace Freelancer.Backend.API.Controllers
             _emailService = emailService;
         }
 
-        [HttpPost("sendemail")]
+        [HttpPost("sendEmail")]
         public async Task<ActionResult> SendEmail([FromBody] EmailDto emailDto)
         {
             await _emailService.SendEmail(emailDto);

@@ -27,8 +27,6 @@ public partial class User
 
     public int? RoleId { get; set; }
 
-    public int? PhotoId { get; set; }
-
     public virtual ICollection<Job> Jobs { get; set; } = new List<Job>();
     public virtual ICollection<Job> JobsUser { get; set; } = new List<Job>();
 
