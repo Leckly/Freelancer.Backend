@@ -25,8 +25,6 @@
         public int? RoleId { get; set; }
         public virtual RoleDto Role { get; set; }
 
-        public int? PhotoId { get; set; }
-
         public virtual PhotoDto? Photo { get; set; }
 
         public string[] Tags { get; set; }
