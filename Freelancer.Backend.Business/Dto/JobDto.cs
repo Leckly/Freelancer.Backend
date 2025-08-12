@@ -1,5 +1,4 @@
-﻿using Freelancer.Backend.Domain;
-using Freelancer.Backend.Domain.Enums;
+﻿using Freelancer.Backend.Domain.Enums;
 using Microsoft.AspNetCore.Http;
 
 namespace Freelancer.Backend.Business.Dto
