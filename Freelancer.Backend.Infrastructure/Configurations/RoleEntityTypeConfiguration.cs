@@ -22,7 +22,7 @@ namespace Freelancer.Backend.Infrastructure.Configurations
                 new Role
                 {
                     Id = 2,
-                    Name = "Employeer"
+                    Name = "Employer"
                 }
             });
         }

@@ -15,9 +15,6 @@ namespace Freelancer.Backend.Infrastructure.Configurations
             builder.Property(e => e.Description).HasMaxLength(512);
             builder.Property(e => e.Name).HasMaxLength(255);
 
-            builder.HasMany(x => x.JobUsers)
-                .WithMany(x => x.JobsUser);
-
             builder.HasMany(x => x.JobPhotos)
                 .WithOne(x => x.Job)
                 .HasForeignKey(x => x.JobId);

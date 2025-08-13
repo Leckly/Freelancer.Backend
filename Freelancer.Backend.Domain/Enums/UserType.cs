@@ -2,7 +2,7 @@
 {
     public enum UserType
     {
-        Employee,
-        Employeer
+        Employee = 1,
+        Employer = 2
     }
 }

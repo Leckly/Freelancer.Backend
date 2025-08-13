@@ -110,7 +110,7 @@ namespace Freelancer.Backend.Business.Services
                 var role = await _roleRepository.GetByFilterAsync(x => x.Name == "Employee");
                 newUser.Role = role;
             }
-            else if (registerDTO.UserType == UserType.Employeer)
+            else if (registerDTO.UserType == UserType.Employer)
             {
                 var role = await _roleRepository.GetByFilterAsync(x => x.Name == "Employeer");
                 newUser.Role = role;

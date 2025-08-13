@@ -21,6 +21,6 @@ public partial class Job
     public string[] Tags { get; set; }
 
     public virtual User? User { get; set; }
-    public virtual ICollection<User> JobUsers { get; set; } = new List<User>();
+    public virtual ICollection<JobRequest> JobRequests { get; set; } = new List<JobRequest>();
     public virtual ICollection<JobPhoto> JobPhotos { get; set; } = new List<JobPhoto>();
 }
