@@ -20,6 +20,8 @@ namespace Freelancer.Backend.Business.Dto
         public DateTime CreateDate { get; set; }
 
         public DateTime StartDate { get; set; }
+        
+        public int Price { get; set; }
 
         public virtual ICollection<UserDTO> JobUsers { get; set; } = new List<UserDTO>();
         public virtual ICollection<JobPhotoDto> JobPhotos { get; set; } = new List<JobPhotoDto>();

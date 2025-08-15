@@ -54,6 +54,7 @@ namespace Freelancer.Backend.Business.Services
                 CreateDate = DateTime.Now,
                 StartDate = jobDto.StartDate,
                 Status = JobStatus.Opened,
+                Price = jobDto.Price,
                 Tags = jobDto.Tags,
                 JobPhotos = photos
             };
@@ -162,6 +163,8 @@ namespace Freelancer.Backend.Business.Services
                 }
             }
 
+            job.Price = jobDto.Price;
+            job.StartDate = jobDto.StartDate;
             job.Description = jobDto.Description;
             job.Tags = jobDto.Tags;
             job.Name = jobDto.Name;

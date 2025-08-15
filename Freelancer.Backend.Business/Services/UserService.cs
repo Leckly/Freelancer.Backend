@@ -91,13 +91,18 @@ namespace Freelancer.Backend.Business.Services
                 Tags = registerDTO.Tags
             };
 
-            var photo = new UserPhoto()
+            if (registerDTO.File is not null)
             {
-                Name = "",
-                ContentType = registerDTO.File.ContentType
-            };
+                var photo = new UserPhoto()
+                {
+                    Name = "",
+                    ContentType = registerDTO.File.ContentType
+                };
+                newUser.Photo = photo;
+            }
+            
 
-            newUser.Photo = photo;
+            
 
             var user = await _userRepository.GetByFilterAsync(x => x.Email == newUser.Email);
             if (user is not null)
@@ -120,19 +125,28 @@ namespace Freelancer.Backend.Business.Services
 
             var again = await _userRepository.GetByEmailWithRoleAsync(x => x.Id == addedUser.Id);
 
-            again.Photo.Name = $"{addedUser.Id}.{again.Photo.ContentType.Remove(0, 6)}";
+            if (again.Photo is not null)
+            {
+                again.Photo.Name = $"{addedUser.Id}.{again.Photo.ContentType.Remove(0, 6)}";
+
+            }
 
             await _userRepository.UpdateAsync(addedUser.Id, again);
 
-            var buffer = new byte[registerDTO.File.Length];
-
-            using (var content = new MemoryStream(buffer))
+            if (registerDTO.File is not null)
             {
-                await registerDTO.File.CopyToAsync(content);
-                content.Position = 0;
+                var buffer = new byte[registerDTO.File.Length];
 
-                await _photoContentRepository.SaveUserPhotoAsync(again.Photo.Name, content);
+                using (var content = new MemoryStream(buffer))
+                {
+                    await registerDTO.File.CopyToAsync(content);
+                    content.Position = 0;
+
+                    await _photoContentRepository.SaveUserPhotoAsync(again.Photo.Name, content);
+                }
+
             }
+            
         }
 
         public async Task SignOutAsync()

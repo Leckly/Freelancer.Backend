@@ -18,6 +18,8 @@ public partial class Job
 
     public JobStatus Status { get; set; }
 
+    public int Price { get; set; }
+
     public string[] Tags { get; set; }
 
     public virtual User? User { get; set; }
