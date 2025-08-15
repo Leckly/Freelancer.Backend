@@ -100,9 +100,6 @@ namespace Freelancer.Backend.Business.Services
                 };
                 newUser.Photo = photo;
             }
-            
-
-            
 
             var user = await _userRepository.GetByFilterAsync(x => x.Email == newUser.Email);
             if (user is not null)
@@ -117,7 +114,7 @@ namespace Freelancer.Backend.Business.Services
             }
             else if (registerDTO.UserType == UserType.Employer)
             {
-                var role = await _roleRepository.GetByFilterAsync(x => x.Name == "Employeer");
+                var role = await _roleRepository.GetByFilterAsync(x => x.Name == "Employer");
                 newUser.Role = role;
             }
 
