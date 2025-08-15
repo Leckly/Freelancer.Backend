@@ -31,8 +31,13 @@ namespace Freelancer.Backend.API.ExceptionHandling
             }
             catch (UserExistApiException ex)
             {
-                await HandleRecordExistExceptionException(httpContext, ex);
+                await HandleRecordExistException(httpContext, ex);
                 Log.Error(ex, "User exist exception.");
+            }
+            catch (UserNotFoundApiException ex)
+            {
+                await HandleUserNotFoundException(httpContext, ex);
+                Log.Error(ex, "User not found");
             }
             catch (ApiBaseException ex)
             {
@@ -46,6 +51,11 @@ namespace Freelancer.Backend.API.ExceptionHandling
             }
         }
 
+        private async Task HandleUserNotFoundException(HttpContext context, UserNotFoundApiException ex)
+        {
+            await HandleException(context, 404, "User not exists");
+        }
+
         private static async Task HandleEntityNotFoundException(HttpContext context, Exception ex)
         {
             await HandleException(context, 404, "The specified entity has not been found.");
@@ -56,7 +66,7 @@ namespace Freelancer.Backend.API.ExceptionHandling
             await HandleException(context, 400, "The provided entity is invalid.");
         }
 
-        private static async Task HandleRecordExistExceptionException(HttpContext context, Exception ex)
+        private static async Task HandleRecordExistException(HttpContext context, Exception ex)
         {
             await HandleException(context, 409, "User already exist.");
         }

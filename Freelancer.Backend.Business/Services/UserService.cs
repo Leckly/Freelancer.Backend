@@ -52,14 +52,14 @@ namespace Freelancer.Backend.Business.Services
             var user = await _userRepository.GetByEmailWithRoleAsync(x => x.Email == loginDTO.Email);
             if (user == null)
             {
-                throw new EntityNotFoundApiException();
+                throw new UserNotFoundApiException();
             }
 
 
             var userExists = _passwordHasher.VerifyHashedPassword(default, user.PasswordHash, loginDTO.Password);
             if (userExists != PasswordVerificationResult.Success)
             {
-                throw new EntityNotFoundApiException();
+                throw new UserNotFoundApiException();
             }
 
             await AddCookies(user);
