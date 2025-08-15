@@ -251,5 +251,17 @@ namespace Freelancer.Backend.Business.Services
 
             return _mapper.Map<UserDTO>(user);
         }
+
+        public async Task DeleteAsync(int id)
+        {
+            var user = await _userRepository.GetByFilterWithPhotoAsync(x => x.Id == id);
+
+            if (user.Photo != null)
+            {
+                _photoContentRepository.DeleteUserPhotoContent(user.Photo.Name);
+            }
+
+            await _userRepository.DeleteAsync(id);
+        }
     }
 }

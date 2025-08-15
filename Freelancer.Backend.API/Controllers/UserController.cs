@@ -1,6 +1,7 @@
 ﻿using Freelancer.Backend.Business.Dto;
 using Freelancer.Backend.Business.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Client;
 
 namespace Freelancer.Backend.API.Controllers
 {
@@ -83,6 +84,16 @@ namespace Freelancer.Backend.API.Controllers
         {
             var user = await _userService.GetAsync(id);
             return Ok(user);
+        }
+
+        [HttpDelete("{id}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(IDictionary<string, string>), 400)]
+        [ProducesResponseType(500)]
+        public async Task<IActionResult> DeleteUser(int id)
+        {
+            await _userService.DeleteAsync(id);
+            return Ok();
         }
     }
 }
