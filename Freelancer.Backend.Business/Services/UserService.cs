@@ -88,7 +88,7 @@ namespace Freelancer.Backend.Business.Services
                 Nip = registerDTO.NIP,
                 Country = registerDTO.Country,
                 Description = registerDTO.Description,
-                Tags = registerDTO.Tags
+                Tags = registerDTO.Tags ?? Array.Empty<string>()
             };
 
             if (registerDTO.File is not null)

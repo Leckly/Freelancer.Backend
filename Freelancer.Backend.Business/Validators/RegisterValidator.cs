@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace Freelancer.Backend.Business.Validators
 {
-    public class RegisterValidator: AbstractValidator<RegisterDTO>
+    public class RegisterValidator : AbstractValidator<RegisterDTO>
     {
         private const string RequiredMessage = "{PropertyName} is required";
         private const string EmailMessage = "It is not an email";
@@ -63,6 +63,13 @@ namespace Freelancer.Backend.Business.Validators
 
         private bool IsMatchedWithRegex(string password) => Regex.IsMatch(password, PasswordRegex);
 
-        private bool IsLessThanMaxLength(string[] tags) => tags.Length <= MaxLengthOfTags;
+        private bool IsLessThanMaxLength(string[]? tags)
+        {
+            if (tags is not null)
+            {
+                return tags?.Length <= MaxLengthOfTags;
+            }
+            return true;
+        }
     }
 }
