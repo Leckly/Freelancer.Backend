@@ -32,7 +32,7 @@ namespace Freelancer.Backend.API.ExceptionHandling
             catch (UserExistApiException ex)
             {
                 await HandleRecordExistExceptionException(httpContext, ex);
-                Log.Error(ex, "Record exist exception.");
+                Log.Error(ex, "User exist exception.");
             }
             catch (ApiBaseException ex)
             {
@@ -58,7 +58,7 @@ namespace Freelancer.Backend.API.ExceptionHandling
 
         private static async Task HandleRecordExistExceptionException(HttpContext context, Exception ex)
         {
-            await HandleException(context, 409, "Record already exist.");
+            await HandleException(context, 409, "User already exist.");
         }
 
         private static async Task HandleGeneralException(HttpContext context, Exception ex)
