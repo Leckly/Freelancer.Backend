@@ -213,10 +213,9 @@ namespace Freelancer.Backend.Business.Services
         {
             var users = await _userRepository.GetAllWithIncludesAsync();
 
-            searchBar = searchBar.ToLower();
-
             if (!searchBar.IsNullOrEmpty())
             {
+                searchBar = searchBar.ToLower();
                 users = users
                     .Where(x =>
                     (!string.IsNullOrEmpty(x.CompanyName) && x.CompanyName.ToLower().Contains(searchBar)) ||
