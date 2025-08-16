@@ -225,7 +225,7 @@ namespace Freelancer.Backend.Business.Services
 
             if (tags != null && tags.Length > 0)
             {
-                users = users.Where(x => tags.Intersect(x.Tags).Any());
+                users = users.Where(x => tags.Select(y => y.ToLower()).Intersect(x.Tags.Select(z => z.ToLower())).Any());
             }
 
             var id = _httpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
