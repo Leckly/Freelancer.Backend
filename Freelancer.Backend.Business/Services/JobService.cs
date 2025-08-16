@@ -33,7 +33,7 @@ namespace Freelancer.Backend.Business.Services
                 photos.Add(new JobPhoto()
                 {
                     ContentType = photo.ContentType,
-                    Name = new Guid().ToString(),
+                    Name = Guid.NewGuid().ToString(),
                 });
 
                 var buffer = new byte[photo.Length];
@@ -55,7 +55,7 @@ namespace Freelancer.Backend.Business.Services
                 StartDate = jobDto.StartDate,
                 Status = JobStatus.Opened,
                 Price = jobDto.Price,
-                Tags = jobDto.Tags,
+                Tags = jobDto.Tags ?? Array.Empty<string>(),
                 JobPhotos = photos
             };
 
@@ -95,7 +95,7 @@ namespace Freelancer.Backend.Business.Services
 
             if (tags != null && tags.Length > 0)
             {
-                jobs = jobs.Where(x => tags.Intersect(x.Tags).Any());
+                jobs = jobs.Where(x => tags.Select(y => y.ToLower()).Intersect(x.Tags.Select(z => z.ToLower())).Any());
             }
 
             return jobs.Skip(skip).Take(take).Select(_mapper.Map<JobDto>);
@@ -128,7 +128,7 @@ namespace Freelancer.Backend.Business.Services
             return new ReceivePhotoResponse(memoryStream, photo.ContentType, photo.Name);
         }
 
-        public async Task UpdateAsync(int id, JobDto jobDto)
+        public async Task UpdateAsync(int id, JobUpdateRequest jobDto)
         {
             var job = await _jobRepository.GetByFilterWithPhotosAsync(x => x.Id == id);
 

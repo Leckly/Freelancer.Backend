@@ -1,5 +1,4 @@
 ﻿using Freelancer.Backend.Domain.Enums;
-using Microsoft.AspNetCore.Http;
 
 namespace Freelancer.Backend.Business.Dto
 {
@@ -23,8 +22,6 @@ namespace Freelancer.Backend.Business.Dto
         
         public int Price { get; set; }
 
-        public virtual ICollection<UserDTO> JobUsers { get; set; } = new List<UserDTO>();
         public virtual ICollection<JobPhotoDto> JobPhotos { get; set; } = new List<JobPhotoDto>();
-        public IFormFileCollection? FormFiles { get; set; }
     }
 }

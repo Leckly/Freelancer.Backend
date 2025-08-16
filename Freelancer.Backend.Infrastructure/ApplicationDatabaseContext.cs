@@ -15,7 +15,7 @@ public partial class ApplicationDatabaseContext : DbContext
 
     public virtual DbSet<JobPhoto> JobPhotos { get; set; }
 
-    public virtual DbSet<JobsUser> JobsUsers { get; set; }
+    //public virtual DbSet<JobsUser> JobsUsers { get; set; }
 
     public virtual DbSet<UserPhoto> Photos { get; set; }
 
