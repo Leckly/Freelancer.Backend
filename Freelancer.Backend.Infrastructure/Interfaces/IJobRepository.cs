@@ -8,5 +8,6 @@ namespace Freelancer.Backend.Infrastructure.Interfaces
         Task<IEnumerable<Job>> GetAllWithIncludesAsync();
         Task<Job> GetByFilterWithPhotosAsync(Expression<Func<Job, bool>> filter);
         Task<IEnumerable<Job>> GetAllWithPhotosAsync();
+        Task<Job> GetByFilterWithRequestsAsync(Expression<Func<Job, bool>> filter);
     }
 }

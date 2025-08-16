@@ -25,5 +25,10 @@ namespace Freelancer.Backend.Infrastructure.Repositories
         {
             return await _dbSet.Include(x => x.JobPhotos).FirstOrDefaultAsync(filter);
         }
+
+        public async Task<Job> GetByFilterWithRequestsAsync(Expression<Func<Job, bool>> filter)
+        {
+            return await _dbSet.Include(x => x.JobRequests).FirstOrDefaultAsync(filter);
+        }
     }
 }

@@ -21,6 +21,7 @@ namespace Freelancer.Backend.Infrastructure
             services.AddTransient<IFileService, FileService>();
             services.AddTransient<IPhotoContentRepository, PhotoContentRepository>();
             services.AddTransient<IDbInitializer, DbInitializer>();
+            services.AddScoped<IJobRequestRepository, JobRequestRepository>();
             return services;
         }
     }

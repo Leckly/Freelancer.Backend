@@ -25,7 +25,7 @@ public partial class ApplicationDatabaseContext : DbContext
 
     public virtual DbSet<User> Users { get; set; }
 
-    public virtual DbSet<JobRequest> UserJobs { get; set; }
+    public virtual DbSet<JobRequest> JobRequests { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

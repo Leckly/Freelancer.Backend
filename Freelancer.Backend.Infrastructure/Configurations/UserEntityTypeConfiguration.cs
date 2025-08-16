@@ -53,7 +53,7 @@ namespace Freelancer.Backend.Infrastructure.Configurations
                     Country = "Poland",
                     CompanyName = "GoodCompany",
                     RoleId = 1,
-                    Tags = [".NET", "Java"]
+                    Tags = [".NET", "Java", "C#", "SQL", "Azure", "Microservices"]
                 },
                 new User
                 {
@@ -69,7 +69,7 @@ namespace Freelancer.Backend.Infrastructure.Configurations
                     Country = "Poland",
                     CompanyName = "DevMasters",
                     RoleId = 1,
-                    Tags = ["C#", "Azure"]
+                    Tags = ["C#", "Azure", "DevOps", "Cloud", "ASP.NET Core", "SQL"]
                 },
                 new User
                 {
@@ -85,7 +85,7 @@ namespace Freelancer.Backend.Infrastructure.Configurations
                     Country = "Poland",
                     CompanyName = "WebSolutions",
                     RoleId = 1,
-                    Tags = ["React", "Node.js"]
+                    Tags = ["React", "Node.js", "JavaScript", "TypeScript", "GraphQL", "MongoDB"]
                 },
                 new User
                 {
@@ -101,7 +101,7 @@ namespace Freelancer.Backend.Infrastructure.Configurations
                     Country = "Poland",
                     CompanyName = "CloudTech",
                     RoleId = 1,
-                    Tags = ["Java", "Spring Boot"]
+                    Tags = ["Java", "Spring Boot", "Hibernate", "Kotlin", "Microservices", "Docker"]
                 },
                 new User
                 {
@@ -117,7 +117,7 @@ namespace Freelancer.Backend.Infrastructure.Configurations
                     Country = "Poland",
                     CompanyName = "UIWorks",
                     RoleId = 1,
-                    Tags = ["Angular", "TypeScript"]
+                    Tags = ["Angular", "TypeScript", "RxJS", "SCSS", "Material UI", "HTML5"]
                 },
                 new User
                 {
@@ -133,7 +133,7 @@ namespace Freelancer.Backend.Infrastructure.Configurations
                     Country = "Poland",
                     CompanyName = "SoftBuild",
                     RoleId = 1,
-                    Tags = [".NET", "Microservices"]
+                    Tags = [".NET", "Microservices", "DDD", "CQRS", "Azure", "Kubernetes"]
                 },
                 new User
                 {
@@ -149,7 +149,7 @@ namespace Freelancer.Backend.Infrastructure.Configurations
                     Country = "Poland",
                     CompanyName = "TestIt",
                     RoleId = 1,
-                    Tags = ["Selenium", "Cypress"]
+                    Tags = ["Selenium", "Cypress", "JUnit", "TestNG", "Postman", "Playwright"]
                 },
                 new User
                 {
@@ -165,7 +165,7 @@ namespace Freelancer.Backend.Infrastructure.Configurations
                     Country = "Poland",
                     CompanyName = "OpsMasters",
                     RoleId = 1,
-                    Tags = ["Docker", "Kubernetes"]
+                    Tags = ["Docker", "Kubernetes", "Helm", "Terraform", "CI/CD", "Linux"]
                 },
                 new User
                 {
@@ -181,7 +181,7 @@ namespace Freelancer.Backend.Infrastructure.Configurations
                     Country = "Poland",
                     CompanyName = "DataVision",
                     RoleId = 1,
-                    Tags = ["Python", "ML"]
+                    Tags = ["Python", "ML", "Pandas", "TensorFlow", "PyTorch", "Data Mining"]
                 },
                 new User
                 {
@@ -197,7 +197,7 @@ namespace Freelancer.Backend.Infrastructure.Configurations
                     Country = "Poland",
                     CompanyName = "Appify",
                     RoleId = 1,
-                    Tags = ["Flutter", "React Native"]
+                    Tags = ["Flutter", "React Native", "Dart", "iOS", "Android", "Firebase"]
                 },
                 new User
                 {
@@ -213,7 +213,7 @@ namespace Freelancer.Backend.Infrastructure.Configurations
                     Country = "Poland",
                     CompanyName = "PerfectCompany",
                     RoleId = 2,
-                    Tags = [".NET", "Java"]
+                    Tags = [".NET", "Java", "E-Commerce", "Mobile Apps", "Cloud", "API"]
                 },
                 new User
                 {
@@ -229,7 +229,7 @@ namespace Freelancer.Backend.Infrastructure.Configurations
                     Country = "Poland",
                     CompanyName = "HRPlus",
                     RoleId = 2,
-                    Tags = ["Recruitment", "Onboarding"]
+                    Tags = ["Recruitment", "Onboarding", "HR", "Employer Branding", "Talent Sourcing"]
                 },
                 new User
                 {
@@ -245,7 +245,7 @@ namespace Freelancer.Backend.Infrastructure.Configurations
                     Country = "Poland",
                     CompanyName = "MarketLead",
                     RoleId = 2,
-                    Tags = ["SEO", "Google Ads"]
+                    Tags = ["SEO", "Google Ads", "SEM", "Content Marketing", "Analytics", "Copywriting"]
                 },
                 new User
                 {
@@ -261,7 +261,7 @@ namespace Freelancer.Backend.Infrastructure.Configurations
                     Country = "Poland",
                     CompanyName = "DesignHub",
                     RoleId = 2,
-                    Tags = ["Figma", "UX"]
+                    Tags = ["Figma", "UX", "UI Design", "Prototyping", "Adobe XD", "Accessibility"]
                 },
                 new User
                 {
@@ -277,7 +277,7 @@ namespace Freelancer.Backend.Infrastructure.Configurations
                     Country = "Poland",
                     CompanyName = "BizGrow",
                     RoleId = 2,
-                    Tags = ["B2B", "Negotiations"]
+                    Tags = ["B2B", "Negotiations", "Sales", "Consulting", "Partnerships", "CRM"]
                 },
                 new User
                 {
@@ -293,7 +293,7 @@ namespace Freelancer.Backend.Infrastructure.Configurations
                     Country = "Poland",
                     CompanyName = "PMExperts",
                     RoleId = 2,
-                    Tags = ["Agile", "Scrum"]
+                    Tags = ["Agile", "Scrum", "Kanban", "Project Management", "Jira", "Confluence"]
                 },
                 new User
                 {
@@ -309,7 +309,7 @@ namespace Freelancer.Backend.Infrastructure.Configurations
                     Country = "Poland",
                     CompanyName = "ITSecure",
                     RoleId = 2,
-                    Tags = ["Linux", "Networking"]
+                    Tags = ["Linux", "Networking", "Security", "Firewalls", "Monitoring", "DevSecOps"]
                 },
                 new User
                 {
@@ -325,7 +325,7 @@ namespace Freelancer.Backend.Infrastructure.Configurations
                     Country = "Poland",
                     CompanyName = "BizAnalytics",
                     RoleId = 2,
-                    Tags = ["SQL", "UML"]
+                    Tags = ["SQL", "UML", "Business Analysis", "BI", "ETL", "Data Warehousing"]
                 },
                 new User
                 {
@@ -341,7 +341,7 @@ namespace Freelancer.Backend.Infrastructure.Configurations
                     Country = "Poland",
                     CompanyName = "HelpDeskPro",
                     RoleId = 2,
-                    Tags = ["Customer Service", "ITIL"]
+                    Tags = ["Customer Service", "ITIL", "Helpdesk", "Support", "Troubleshooting", "Windows"]
                 },
                 new User
                 {
@@ -357,7 +357,7 @@ namespace Freelancer.Backend.Infrastructure.Configurations
                     Country = "Poland",
                     CompanyName = "ContentLab",
                     RoleId = 2,
-                    Tags = ["Copywriting", "Social Media"]
+                    Tags = ["Copywriting", "Social Media", "Marketing", "Storytelling", "Branding", "Creative"]
                 }
             });
         }

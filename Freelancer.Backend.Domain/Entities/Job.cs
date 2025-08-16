@@ -20,7 +20,7 @@ public partial class Job
 
     public int Price { get; set; }
 
-    public string[] Tags { get; set; }
+    public string[]? Tags { get; set; }
 
     public virtual User? User { get; set; }
     public virtual ICollection<JobRequest> JobRequests { get; set; } = new List<JobRequest>();

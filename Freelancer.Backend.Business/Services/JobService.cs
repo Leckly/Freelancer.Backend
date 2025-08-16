@@ -174,11 +174,16 @@ namespace Freelancer.Backend.Business.Services
 
         public async Task UpdateJobStatus(int jobId)
         {
-            var job = await _jobRepository.GetByFilterAsync(x => x.Id == jobId);
+            var job = await _jobRepository.GetByFilterWithRequestsAsync(x => x.Id == jobId);
 
             if (job is null) 
             {
                 throw new EntityNotFoundApiException(); 
+            }
+
+            foreach (var request in job.JobRequests.Where(x => x.Status != JobRequestStatus.Accepted))
+            {
+                request.Status = JobRequestStatus.Declined;
             }
 
             job.Status = JobStatus.Closed;

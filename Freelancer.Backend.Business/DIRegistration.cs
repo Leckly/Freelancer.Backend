@@ -18,6 +18,7 @@ namespace Freelancer.Backend.Business
             services.AddTransient<IEmailService, EmailService>();
             services.AddValidatorsFromAssemblyContaining<RegisterValidator>();
             services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
+            services.AddTransient<IJobRequestService, JobRequestService>();
             return services;
         }
     }
