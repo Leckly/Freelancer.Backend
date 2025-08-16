@@ -90,7 +90,7 @@ namespace Freelancer.Backend.Business.Services
             var jobs = await _jobRepository.GetAllWithIncludesAsync();
             if (!searchBar.IsNullOrEmpty())
             {
-                jobs = jobs.Where(x => x.Name.Contains(searchBar));
+                jobs = jobs.Where(x => x.Name.ToLower().Contains(searchBar.ToLower()));
             }
 
             if (tags != null && tags.Length > 0)

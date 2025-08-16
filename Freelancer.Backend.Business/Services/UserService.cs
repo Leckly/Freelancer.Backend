@@ -213,14 +213,16 @@ namespace Freelancer.Backend.Business.Services
         {
             var users = await _userRepository.GetAllWithIncludesAsync();
 
+            searchBar = searchBar.ToLower();
+
             if (!searchBar.IsNullOrEmpty())
             {
                 users = users
                     .Where(x =>
-                    (!string.IsNullOrEmpty(x.CompanyName) && x.CompanyName.Contains(searchBar)) ||
-                    (!string.IsNullOrEmpty(x.Description) && x.Description.Contains(searchBar)) ||
-                    (!string.IsNullOrEmpty(x.FirstName) && x.FirstName.Contains(searchBar)) ||
-                    (!string.IsNullOrEmpty(x.LastName) && x.LastName.Contains(searchBar)));
+                    (!string.IsNullOrEmpty(x.CompanyName) && x.CompanyName.ToLower().Contains(searchBar)) ||
+                    (!string.IsNullOrEmpty(x.Description) && x.Description.ToLower().Contains(searchBar)) ||
+                    (!string.IsNullOrEmpty(x.FirstName) && x.FirstName.ToLower().Contains(searchBar)) ||
+                    (!string.IsNullOrEmpty(x.LastName) && x.LastName.ToLower().Contains(searchBar)));
             }
 
             if (tags != null && tags.Length > 0)
