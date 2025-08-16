@@ -14,7 +14,7 @@ namespace Freelancer.Backend.Business.Dto
 
         public string[]? Tags { get; set; }
 
-        public JobStatus JobStatus { get; set; }
+        public JobStatus Status { get; set; }
 
         public DateTime CreateDate { get; set; }
 
