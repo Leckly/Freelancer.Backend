@@ -5,7 +5,7 @@ namespace Freelancer.Backend.Business.Interfaces
 {
     public interface IJobService
     {
-        Task<IEnumerable<JobDto>> GetAllAsync(int skip, int take, string searchBar, string[] tags, JobStatus status);
+        Task<IEnumerable<JobDto>> GetAllAsync(int skip, int take, string searchBar, string[] tags, JobStatus status, int? minPrice, DateOnly? afterDate);
         Task<JobDto> GetByIdAsync(int id);
         Task<JobDto> AddAsync(JobCreationRequest jobDto);
         Task DeleteAsync(int id);

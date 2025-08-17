@@ -20,9 +20,10 @@ namespace Freelancer.Backend.API.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] int skip, [FromQuery] int take, [FromQuery] string? searchBar, [FromQuery] string[] tags, [FromQuery] JobStatus status)
+        public async Task<IActionResult> GetAll([FromQuery] int skip, [FromQuery] int take, [FromQuery] string? searchBar, [FromQuery] string[] tags,
+            [FromQuery] JobStatus status, [FromQuery] int? minPrice, [FromQuery] DateOnly dateStart)
         {
-            var jobs = await _jobService.GetAllAsync(skip, take, searchBar, tags, status);
+            var jobs = await _jobService.GetAllAsync(skip, take, searchBar, tags, status, minPrice, dateStart);
             return Ok(jobs);
         }
 

@@ -87,13 +87,23 @@ namespace Freelancer.Backend.Business.Services
             await _jobRepository.DeleteAsync(id);
         }
 
-        public async Task<IEnumerable<JobDto>> GetAllAsync(int skip, int take, string searchBar, string[] tags, JobStatus status)
+        public async Task<IEnumerable<JobDto>> GetAllAsync(int skip, int take, string searchBar, string[] tags, JobStatus status, int? minPrice, DateOnly? afterDate)
         {
             var jobs = await _jobRepository.GetAllWithIncludesAsync();
 
             if (status == JobStatus.Closed)
             {
                 jobs = jobs.Where(x => x.Status != status);
+            }
+
+            if (minPrice is not null)
+            {
+                jobs = jobs.Where(x => x.Price >= minPrice);
+            }
+
+            if (afterDate is not null)
+            {
+                jobs = jobs.Where(x => DateOnly.FromDateTime(x.StartDate) >= afterDate);
             }
 
             if (!searchBar.IsNullOrEmpty())
