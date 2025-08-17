@@ -13,5 +13,7 @@ namespace Freelancer.Backend.Business.Interfaces
         Task<IEnumerable<UserDTO>> GetAllAsync(int type, int skip, int take, string searchBar, string[] tags);
         Task<UserDTO> GetAsync(int id);
         Task DeleteAsync(int id);
+        Task<IEnumerable<UserDTO>> GetTop3EmployersAsync();
+        Task<IEnumerable<UserDTO>> GetTop3FreelancersAsync();
     }
 }

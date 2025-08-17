@@ -8,5 +8,6 @@ namespace Freelancer.Backend.Infrastructure.Interfaces
         Task<User> GetByEmailWithRoleAsync(Expression<Func<User, bool>> filter);
         Task<IEnumerable<User>> GetAllWithIncludesAsync();
         Task<User> GetByFilterWithPhotoAsync(Expression<Func<User, bool>> filter);
+        Task<IEnumerable<User>> GetAllWithRatingsAsync();
     }
 }

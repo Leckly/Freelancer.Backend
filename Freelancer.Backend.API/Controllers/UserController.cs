@@ -1,5 +1,6 @@
 ﻿using Freelancer.Backend.Business.Dto;
 using Freelancer.Backend.Business.Interfaces;
+using Freelancer.Backend.Business.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Client;
 
@@ -94,6 +95,20 @@ namespace Freelancer.Backend.API.Controllers
         {
             await _userService.DeleteAsync(id);
             return Ok();
+        }
+
+        [HttpGet("getTop3Employers")]
+        public async Task<IActionResult> GetTop3Employers()
+        {
+            var employers = await _userService.GetTop3EmployersAsync();
+            return Ok(employers);
+        }
+
+        [HttpGet("getTop3Freelancers")]
+        public async Task<IActionResult> GetTop3Freelancers()
+        {
+            var freelancers = await _userService.GetTop3FreelancersAsync();
+            return Ok(freelancers);
         }
     }
 }

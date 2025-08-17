@@ -261,5 +261,33 @@ namespace Freelancer.Backend.Business.Services
 
             await _userRepository.DeleteAsync(id);
         }
+
+        public async Task<IEnumerable<UserDTO>> GetTop3EmployersAsync()
+        {
+            var users = await _userRepository.GetAllWithRatingsAsync();
+
+            var top3 = users
+                        .Where(x => x.Role.Id == 2)
+                        .OrderByDescending(x => x.Ratings != null && x.Ratings.Any()
+                            ? x.Ratings.Average(r => r.Rate)
+                            : 0)
+                        .Take(3)
+                        .ToList();
+            return top3.Select(x => _mapper.Map<UserDTO>(x)).ToList();
+        }
+
+        public async Task<IEnumerable<UserDTO>> GetTop3FreelancersAsync()
+        {
+            var users = await _userRepository.GetAllWithRatingsAsync();
+
+            var top3 = users
+                        .Where(x => x.Role.Id == 1)
+                        .OrderByDescending(x => x.Ratings != null && x.Ratings.Any()
+                            ? x.Ratings.Average(r => r.Rate)
+                            : 0)
+                        .Take(3)
+                        .ToList();
+            return top3.Select(x => _mapper.Map<UserDTO>(x)).ToList();
+        }
     }
 }
