@@ -1,6 +1,7 @@
 ﻿using Freelancer.Backend.Business.Dto;
 using Freelancer.Backend.Business.Interfaces;
 using Freelancer.Backend.Business.Services;
+using Freelancer.Backend.Domain.Enums;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Freelancer.Backend.API.Controllers
@@ -19,9 +20,9 @@ namespace Freelancer.Backend.API.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] int skip, [FromQuery] int take, [FromQuery] string? searchBar, [FromQuery] string[] tags)
+        public async Task<IActionResult> GetAll([FromQuery] int skip, [FromQuery] int take, [FromQuery] string? searchBar, [FromQuery] string[] tags, [FromQuery] JobStatus status)
         {
-            var jobs = await _jobService.GetAllAsync(skip, take, searchBar, tags);
+            var jobs = await _jobService.GetAllAsync(skip, take, searchBar, tags, status);
             return Ok(jobs);
         }
 
