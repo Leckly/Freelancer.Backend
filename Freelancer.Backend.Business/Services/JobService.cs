@@ -30,11 +30,13 @@ namespace Freelancer.Backend.Business.Services
 
             foreach (var photo in jobDto.FormFiles)
             {
-                photos.Add(new JobPhoto()
+                var model = new JobPhoto()
                 {
                     ContentType = photo.ContentType,
                     Name = Guid.NewGuid().ToString(),
-                });
+                };
+
+                photos.Add(model);
 
                 var buffer = new byte[photo.Length];
 
@@ -43,7 +45,7 @@ namespace Freelancer.Backend.Business.Services
                     await photo.CopyToAsync(content);
                     content.Position = 0;
 
-                    await _photoContentRepository.SaveJobPhotoAsync(photo.Name, content);
+                    await _photoContentRepository.SaveJobPhotoAsync(model.Name, content);
                 }
             }
 
