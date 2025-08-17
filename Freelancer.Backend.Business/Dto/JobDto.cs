@@ -23,5 +23,6 @@ namespace Freelancer.Backend.Business.Dto
         public int Price { get; set; }
 
         public virtual ICollection<JobPhotoDto> JobPhotos { get; set; } = new List<JobPhotoDto>();
+        public virtual ICollection<JobRequestDto> JobRequests { get; set; } = new List<JobRequestDto>();
     }
 }
