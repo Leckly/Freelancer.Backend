@@ -21,7 +21,7 @@ namespace Freelancer.Backend.Business.Services
             _mapper = mapper;
         }
 
-        public async Task AddAsync(RateDto rateDto)
+        public async Task AddAsync(RateCreationRequest rateDto)
         {
             var user = await _userRepository.GetByEmailWithRoleAsync(x => x.Id == rateDto.UserId);
 

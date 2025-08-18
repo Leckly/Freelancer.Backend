@@ -18,7 +18,7 @@ namespace Freelancer.Backend.API.Controllers
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<IActionResult> Add([FromBody] RateDto rateDto)
+        public async Task<IActionResult> Add([FromBody] RateCreationRequest rateDto)
         {
             await _rateService.AddAsync(rateDto);
 
