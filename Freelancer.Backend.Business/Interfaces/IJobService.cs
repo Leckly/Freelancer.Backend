@@ -13,5 +13,7 @@ namespace Freelancer.Backend.Business.Interfaces
 
         Task<ReceivePhotoResponse> GetJobPhoto(int jobId, int photoId);
         Task UpdateJobStatus(int jobId);
+
+        Task<IEnumerable<JobDto>> GetByUserIdAsync(int userId);
     }
 }

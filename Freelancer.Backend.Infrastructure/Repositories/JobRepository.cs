@@ -11,6 +11,14 @@ namespace Freelancer.Backend.Infrastructure.Repositories
         {
         }
 
+        public async Task<IEnumerable<Job>> GetAllForUserWithIncludesAsync(int userId)
+        {
+            return await _dbSet.Include(x => x.JobRequests)
+                .Include(x => x.User)
+                .Where(x => x.User.Id == userId)
+                .ToListAsync();
+        }
+
         public async Task<IEnumerable<Job>> GetAllWithIncludesAsync()
         {
             return await _dbSet.Include(x => x.User).Include(x => x.JobPhotos).Include(x => x.JobRequests).ToListAsync();

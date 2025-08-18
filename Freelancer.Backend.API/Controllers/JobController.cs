@@ -34,6 +34,13 @@ namespace Freelancer.Backend.API.Controllers
             return Ok(job);
         }
 
+        [HttpGet("{userId}")]
+        public async Task<IActionResult> GetByUserId(int userId)
+        {
+            var jobs = await _jobService.GetByUserIdAsync(userId);
+            return Ok(jobs);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Add([FromForm] JobCreationRequest jobDto)
         {

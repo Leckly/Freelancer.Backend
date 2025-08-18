@@ -131,6 +131,13 @@ namespace Freelancer.Backend.Business.Services
             return _mapper.Map<JobDto>(job);
         }
 
+        public async Task<IEnumerable<JobDto>> GetByUserIdAsync(int userId)
+        {
+            var jobs = await _jobRepository.GetAllWithIncludesAsync();
+
+           return jobs.Where(x => x.UserId == userId).Select(x => _mapper.Map<JobDto>(x));
+        }
+
         public async Task<ReceivePhotoResponse> GetJobPhoto(int jobId, int photoId)
         {
             var job = await _jobRepository.GetByFilterWithPhotosAsync(x => x.Id == jobId);

@@ -6,6 +6,7 @@ namespace Freelancer.Backend.Infrastructure.Interfaces
     public interface IJobRepository : IRepository<Job>
     {
         Task<IEnumerable<Job>> GetAllWithIncludesAsync();
+        Task<IEnumerable<Job>> GetAllForUserWithIncludesAsync(int userId);
         Task<Job> GetByFilterWithPhotosAsync(Expression<Func<Job, bool>> filter);
         Task<IEnumerable<Job>> GetAllWithPhotosAsync();
         Task<Job> GetByFilterWithRequestsAsync(Expression<Func<Job, bool>> filter);
