@@ -35,10 +35,10 @@ namespace Freelancer.Backend.API.Controllers
             return Created(nameof(AddAsync), createdJobRequest);
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAsync(int id)
+        [HttpDelete("{userId}/{jobId}")]
+        public async Task<IActionResult> DeleteAsync(int userId, int jobId)
         {
-            await _jobRequestService.DeleteAsync(id);
+            await _jobRequestService.DeleteAsync(userId, jobId);
             return NoContent();
         }
 

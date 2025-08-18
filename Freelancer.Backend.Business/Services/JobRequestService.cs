@@ -37,9 +37,9 @@ public class JobRequestService : IJobRequestService
         return _mapper.Map<JobRequestDto>(await _jobRequestRepository.AddAsync(jobRequest));
     }
 
-    public Task DeleteAsync(int id)
+    public async Task DeleteAsync(int userId, int jobId)
     {
-        throw new NotImplementedException();
+        await _jobRequestRepository.DeleteAsync(userId, jobId);
     }
 
     public Task<IEnumerable<JobRequestDto>> GetAllAsync()
