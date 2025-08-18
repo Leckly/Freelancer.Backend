@@ -21,5 +21,7 @@ public class JobRequestRepository : Repository<JobRequest>, IJobRequestRepositor
         }
 
         _dbSet.Remove(jobRequest);
+
+        await _context.SaveChangesAsync();
     }
 }
