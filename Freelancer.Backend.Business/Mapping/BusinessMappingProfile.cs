@@ -16,6 +16,8 @@ namespace Freelancer.Backend.Business.Mapping
             CreateMap<JobPhoto, JobPhotoDto>().ReverseMap();
             CreateMap<JobRequest, JobRequestDto>().ReverseMap();
             CreateMap<RateCreationRequest, Rating>();
+            CreateMap<JobDtoForUserProfile, Job>().ReverseMap();
+            CreateMap<JobRequest, JobRequestDtoForProfile>().ReverseMap();
         }
     }
 }

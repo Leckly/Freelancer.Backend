@@ -24,4 +24,9 @@ public class JobRequestRepository : Repository<JobRequest>, IJobRequestRepositor
 
         await _context.SaveChangesAsync();
     }
+
+    public async Task<IEnumerable<JobRequest>> GetAllWithJobsAsync(Func<JobRequest, bool> predicate)
+    {
+        return _dbSet.Include(x => x.Job).Where(predicate);
+    }
 }

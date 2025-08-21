@@ -17,12 +17,12 @@ namespace Freelancer.Backend.API.Controllers
             _jobRequestService = jobRequestService;
         }
 
-        //[HttpGet]
-        //public async Task<IActionResult> GetAll([FromQuery] int skip, [FromQuery] int take, [FromQuery] string? searchBar, [FromQuery] string[] tags)
-        //{
-        //    var jobRequests = await _jobRequestService.GetAllAsync();
-        //    return Ok(jobRequests);
-        //}
+        [HttpGet("{userId}")]
+        public async Task<IActionResult> GetAll(int userId)
+        {
+            var jobRequests = await _jobRequestService.GetAllForUserAsync(userId);
+            return Ok(jobRequests);
+        }
 
         [HttpPost]
         public async Task<IActionResult> AddAsync([FromBody] JobRequestAddRequest jobRequestAddRequest)

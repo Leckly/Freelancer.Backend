@@ -33,8 +33,12 @@ public class JobRequestService : IJobRequestService
             User = user,
             Status = JobRequestStatus.Pending
         };
-        
-        return _mapper.Map<JobRequestDto>(await _jobRequestRepository.AddAsync(jobRequest));
+
+        var request = await _jobRequestRepository.AddAsync(jobRequest);
+
+        //send email notification to the job owner
+
+        return _mapper.Map<JobRequestDto>(request);
     }
 
     public async Task DeleteAsync(int userId, int jobId)
@@ -45,6 +49,13 @@ public class JobRequestService : IJobRequestService
     public Task<IEnumerable<JobRequestDto>> GetAllAsync()
     {
         throw new NotImplementedException();
+    }
+
+    public async Task<IEnumerable<JobRequestDtoForProfile>> GetAllForUserAsync(int userId)
+    {
+        var jobRequests = await _jobRequestRepository.GetAllWithJobsAsync(x => x.UserId == userId);
+
+        return jobRequests.Select(x => _mapper.Map<JobRequestDtoForProfile>(x));
     }
 
     public async Task<JobRequestDto> GetByIdAsync(int userId, int jobId)

@@ -21,7 +21,7 @@ namespace Freelancer.Backend.Business.Services
         public async Task SendEmail(EmailDto emailDto)
         {
             var email = new MimeMessage();
-            email.From.Add(MailboxAddress.Parse(_options.EmailFrom));
+            email.From.Add(MailboxAddress.Parse(emailDto.From));
             email.To.Add(MailboxAddress.Parse(_options.EmailTo));
             email.Subject = emailDto.Subject;
 

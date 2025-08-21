@@ -110,5 +110,15 @@ namespace Freelancer.Backend.API.Controllers
             var freelancers = await _userService.GetTop3FreelancersAsync();
             return Ok(freelancers);
         }
+
+        [HttpPut("updatePhoto/{id}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(IDictionary<string, string>), 400)]
+        [ProducesResponseType(500)]
+        public async Task<IActionResult> UpdatePhoto([FromForm] UpdateAvatarDto file, [FromRoute] int id)
+        {
+            //await _userService.UpdateAsync(file, id);
+            return Ok();
+        }
     }
 }
