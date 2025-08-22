@@ -162,32 +162,6 @@ namespace Freelancer.Backend.Business.Services
                 throw new EntityNotFoundApiException();
             }
 
-            foreach (var photo in job.JobPhotos)
-            {
-                _photoContentRepository.DeleteJobPhotoContent(job.Id, job.Name);
-            }
-
-            job.JobPhotos = new List<JobPhoto>();
-
-            foreach (var photo in jobDto.FormFiles)
-            {
-                job.JobPhotos.Add(new JobPhoto()
-                {
-                    ContentType = photo.ContentType,
-                    Name = new Guid().ToString(),
-                });
-
-                var buffer = new byte[photo.Length];
-
-                using (var content = new MemoryStream(buffer))
-                {
-                    await photo.CopyToAsync(content);
-                    content.Position = 0;
-
-                    await _photoContentRepository.SaveJobPhotoAsync(photo.Name, content);
-                }
-            }
-
             job.Price = jobDto.Price;
             job.StartDate = jobDto.StartDate;
             job.Description = jobDto.Description;

@@ -125,7 +125,6 @@ namespace Freelancer.Backend.Business.Services
             if (again.Photo is not null)
             {
                 again.Photo.Name = $"{addedUser.Id}.{again.Photo.ContentType.Remove(0, 6)}";
-
             }
 
             await _userRepository.UpdateAsync(addedUser.Id, again);
@@ -288,6 +287,43 @@ namespace Freelancer.Backend.Business.Services
                         .Take(3)
                         .ToList();
             return top3.Select(x => _mapper.Map<UserDTO>(x)).ToList();
+        }
+
+        public async Task UpdatePhotoAsync(UpdateAvatarDto updateAvatarDto, int userId)
+        {
+            var user = await _userRepository.GetByFilterWithPhotoAsync(x => x.Id == userId);
+
+            if(user is null)
+            {
+                throw new EntityNotFoundApiException();
+            }
+            if (updateAvatarDto.File is not null)
+            {
+                if (user.Photo is null)
+                {
+                    user.Photo = new UserPhoto()
+                    {
+                        Name = $"{user.Id}.{updateAvatarDto.File.ContentType.Remove(0, 6)}",
+                        ContentType = updateAvatarDto.File.ContentType
+                    };
+                    await _userRepository.UpdateAsync(userId, user);
+                }
+                else
+                {
+                    user.Photo.ContentType = updateAvatarDto.File.ContentType;
+                }
+
+            
+                var buffer = new byte[updateAvatarDto.File.Length];
+
+                using (var content = new MemoryStream(buffer))
+                {
+                    await updateAvatarDto.File.CopyToAsync(content);
+                    content.Position = 0;
+
+                    await _photoContentRepository.SaveUserPhotoAsync(user.Photo.Name, content);
+                }
+            }
         }
     }
 }

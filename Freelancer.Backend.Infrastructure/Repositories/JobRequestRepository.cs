@@ -2,6 +2,7 @@
 using Freelancer.Backend.Domain.Exceptions;
 using Freelancer.Backend.Infrastructure.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace Freelancer.Backend.Infrastructure.Repositories;
 
@@ -25,8 +26,8 @@ public class JobRequestRepository : Repository<JobRequest>, IJobRequestRepositor
         await _context.SaveChangesAsync();
     }
 
-    public async Task<IEnumerable<JobRequest>> GetAllWithJobsAsync(Func<JobRequest, bool> predicate)
+    public async Task<IEnumerable<JobRequest>> GetAllWithJobsAsync(Expression<Func<JobRequest, bool>> predicate)
     {
-        return _dbSet.Include(x => x.Job).Where(predicate);
+        return await _dbSet.Where(predicate).Include(x => x.Job).ToListAsync();
     }
 }

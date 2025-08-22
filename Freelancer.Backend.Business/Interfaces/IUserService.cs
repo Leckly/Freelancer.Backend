@@ -15,5 +15,6 @@ namespace Freelancer.Backend.Business.Interfaces
         Task DeleteAsync(int id);
         Task<IEnumerable<UserDTO>> GetTop3EmployersAsync();
         Task<IEnumerable<UserDTO>> GetTop3FreelancersAsync();
+        Task UpdatePhotoAsync(UpdateAvatarDto updateAvatarDto, int userId);
     }
 }

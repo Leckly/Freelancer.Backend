@@ -19,7 +19,6 @@ namespace Freelancer.Backend.API.Controllers
         public async Task<ActionResult> SendEmail([FromBody] EmailDto emailDto)
         {
             await _emailService.SendEmail(emailDto);
-
             return Ok();
         }
     }

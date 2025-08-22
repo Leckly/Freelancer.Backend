@@ -9,5 +9,6 @@ namespace Freelancer.Backend.Business.Dto
         public string Comment { get; set; } = null!;
         public int? UserId { get; set; }
         public int? CreatingUserId { get; set; }
+        public string? CreatingName { get; set; }
     }
 }

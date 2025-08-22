@@ -117,7 +117,7 @@ namespace Freelancer.Backend.API.Controllers
         [ProducesResponseType(500)]
         public async Task<IActionResult> UpdatePhoto([FromForm] UpdateAvatarDto file, [FromRoute] int id)
         {
-            //await _userService.UpdateAsync(file, id);
+            await _userService.UpdatePhotoAsync(file, id);
             return Ok();
         }
     }

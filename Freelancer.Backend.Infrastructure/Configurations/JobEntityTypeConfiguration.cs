@@ -30,7 +30,7 @@ namespace Freelancer.Backend.Infrastructure.Configurations
                 new Job
                 {
                     Id = 1,
-                    UserId = 10,
+                    UserId = 11,
                     Name = "Rozwój aplikacji mobilnej e-commerce",
                     Description = "Projekt aplikacji mobilnej dla sklepu internetowego z wykorzystaniem Flutter i React Native.",
                     CreateDate = DateTime.UtcNow.AddDays(-30),
@@ -42,7 +42,7 @@ namespace Freelancer.Backend.Infrastructure.Configurations
                 new Job
                 {
                     Id = 2,
-                    UserId = 10,
+                    UserId = 11,
                     Name = "Integracja Firebase w aplikacji mobilnej",
                     Description = "Dodanie logowania Google i obsługi powiadomień push w aplikacji mobilnej.",
                     CreateDate = DateTime.UtcNow.AddDays(-15),

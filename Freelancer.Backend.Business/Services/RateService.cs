@@ -48,7 +48,38 @@ namespace Freelancer.Backend.Business.Services
 
             ratings = ratings.Where(x => x.UserId == userId).Skip(skip).Take(take);
 
-            return ratings.Select( x => _mapper.Map<RateDto>(x));
+            if (ratings.IsNullOrEmpty())
+            {
+                return Enumerable.Empty<RateDto>();
+            }
+
+            var creatingUserIds = ratings
+                                .Where(r => r.CreatingUserId.HasValue)
+                                .Select(r => r.CreatingUserId.Value)
+                                .Distinct()
+                                .ToList();
+
+            // Fetch all creating users in a single query
+            var creatingUsers = await _userRepository.GetAllByFilterAsync(u => creatingUserIds.Contains(u.Id));
+
+            // Map to dictionary for quick lookup
+            var userDictionary = creatingUsers.ToDictionary(u => u.Id);
+
+            // Map ratings to DTOs with creating user information
+            var rateDtos = ratings.Select(rating =>
+            {
+                var rateDto = _mapper.Map<RateDto>(rating);
+
+                if (rating.CreatingUserId.HasValue && userDictionary.TryGetValue(rating.CreatingUserId.Value, out var user))
+                {
+                    // Assuming RateDto has these properties or they will be added
+                    rateDto.CreatingName = $"{user.FirstName} {user.LastName}";
+                }
+
+                return rateDto;
+            });
+
+            return rateDtos;
         }
 
         public async Task<int> GetAverageRating(int id)
