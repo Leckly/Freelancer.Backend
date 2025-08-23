@@ -39,5 +39,61 @@ namespace Freelancer.Backend.Business.Services
             await smtp.SendAsync(email);
             await smtp.DisconnectAsync(true);
         }
+
+        public async Task SendEmailToJobOwner(string toEmail, string applyingUserName, string jobName)
+        {
+            var email = new MimeMessage();
+            email.From.Add(MailboxAddress.Parse("freejob682@gmail.com"));
+            email.To.Add(MailboxAddress.Parse(toEmail));
+            email.Subject = "Apply for job";
+
+            var body = @$"
+            <!DOCTYPE html>
+            <html lang=""en"">
+              <head>
+                <meta charset=""UTF-8"" />
+                <title>New Job Application</title>
+              </head>
+              <body style=""margin:0; padding:20px; font-family: Arial, sans-serif; background-color:#f6f6f6; color:#333;"">
+    
+                <div style=""max-width:600px; margin:0 auto; background:#ffffff; border-radius:8px; padding:24px;"">
+      
+                  <!-- Header -->
+                  <h2 style=""color:#4F46E5; margin-top:0; margin-bottom:16px;"">New Job Application</h2>
+      
+                  <!-- Body -->
+                  <p style=""font-size:16px; line-height:1.5; margin:0 0 16px;"">
+                    Dear Owner,
+                  </p>
+      
+                  <p style=""font-size:16px; line-height:1.5; margin:0 0 16px;"">
+                    We wanted to let you know that <strong>{applyingUserName}</strong> has just applied for the {jobName}.
+                  </p>
+      
+                  <p style=""font-size:16px; line-height:1.5; margin:0 0 16px;"">
+                    Please log in to your account to review the application.
+                  </p>
+      
+                  <!-- Footer -->
+                  <p style=""font-size:12px; line-height:1.5; color:#777; margin-top:32px; border-top:1px solid #eee; padding-top:16px;"">
+                    You are receiving this email because you have a job posting on our platform.<br />
+                    © 2025 FreeJob
+                  </p>
+      
+                </div>
+    
+              </body>
+            </html>
+            ";
+
+            email.Body = new TextPart(TextFormat.Html) { Text = body };
+
+            using var smtp = new SmtpClient();
+            await smtp.ConnectAsync(_options.SMTPHost, _options.SMTPPort, SecureSocketOptions.StartTls);
+
+            await smtp.AuthenticateAsync(_options.SMTPUsername, _options.SMTPPassword);
+            await smtp.SendAsync(email);
+            await smtp.DisconnectAsync(true);
+        }
     }
 }

@@ -23,6 +23,7 @@ namespace Freelancer.Backend.Business.Services
         private readonly IRepository<Role> _roleRepository;
         private readonly IPasswordHasher<User> _passwordHasher;
         private readonly IPhotoContentRepository _photoContentRepository;
+        private readonly IJobRepository _jobRepository;
         private readonly IMapper _mapper;
 
         public UserService(IHttpContextAccessor httpContextAccessor,
@@ -31,7 +32,8 @@ namespace Freelancer.Backend.Business.Services
             IRepository<Role> roleRepository,
             IPasswordHasher<User> passwordHasher,
             IPhotoContentRepository photoContentRepository,
-            IMapper mapper)
+            IMapper mapper,
+            IJobRepository jobRepository)
         {
             _httpContext = httpContextAccessor.HttpContext;
             _validator = validator;
@@ -40,6 +42,7 @@ namespace Freelancer.Backend.Business.Services
             _passwordHasher = passwordHasher;
             _photoContentRepository = photoContentRepository;
             _mapper = mapper;
+            _jobRepository = jobRepository;
         }
 
         public async Task<UserDTO> SignInAsync(LoginDTO loginDTO)
@@ -251,14 +254,19 @@ namespace Freelancer.Backend.Business.Services
 
         public async Task DeleteAsync(int id)
         {
-            var user = await _userRepository.GetByFilterWithPhotoAsync(x => x.Id == id);
+            var user = await _userRepository.GetByFilterWithPhotoAndJobsAsync(x => x.Id == id);
+
+            //foreach (var job in user.Jobs)
+            //{
+            //    await _jobRepository.DeleteAsync(job.Id);
+            //}
+
+            await _userRepository.DeleteAsync(id);
 
             if (user.Photo != null)
             {
                 _photoContentRepository.DeleteUserPhotoContent(user.Photo.Name);
             }
-
-            await _userRepository.DeleteAsync(id);
         }
 
         public async Task<IEnumerable<UserDTO>> GetTop3EmployersAsync()

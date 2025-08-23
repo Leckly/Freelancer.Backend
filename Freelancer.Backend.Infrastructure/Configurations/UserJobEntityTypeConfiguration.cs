@@ -13,7 +13,7 @@ namespace Freelancer.Backend.Infrastructure.Configurations
             builder.HasOne(d => d.Job)
                 .WithMany(x => x.JobRequests)
                 .HasForeignKey(d => d.JobId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK__UserJobs__JobId__03F0984C");
 
             builder.HasOne(d => d.User)

@@ -20,11 +20,6 @@ namespace Freelancer.Backend.Infrastructure.Configurations
                 .WithOne(x => x.Job)
                 .HasForeignKey(x => x.JobId);
 
-            builder.HasOne(d => d.User).WithMany(p => p.Jobs)
-                .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("FK__Job__UserId__02084FDA");
-
             builder.HasData(new List<Job>
             {
                 new Job

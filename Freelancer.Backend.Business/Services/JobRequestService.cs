@@ -13,19 +13,22 @@ public class JobRequestService : IJobRequestService
     private readonly IJobRepository _jobRepository;
     private readonly IUserRepository _userRepository;
     private readonly IMapper _mapper;
+    private readonly IEmailService _emailService;
 
-    public JobRequestService(IJobRequestRepository jobRequestRepository, IJobRepository jobRepository, IUserRepository userRepository, IMapper mapper)
+    public JobRequestService(IJobRequestRepository jobRequestRepository, IJobRepository jobRepository, IUserRepository userRepository, IMapper mapper, IEmailService emailService)
     {
         _jobRequestRepository = jobRequestRepository;
         _jobRepository = jobRepository;
         _userRepository = userRepository;
         _mapper = mapper;
+        _emailService = emailService;
     }
 
     public async Task<JobRequestDto> AddAsync(int userId, int jobId)
     {
         var user = await _userRepository.GetByFilterAsync(x => x.Id == userId);
         var job = await _jobRepository.GetByFilterAsync(x => x.Id == jobId);
+        var jobOwner = await _userRepository.GetByFilterAsync(x => x.Id == job.UserId);
 
         var jobRequest = new JobRequest()
         {
@@ -36,7 +39,7 @@ public class JobRequestService : IJobRequestService
 
         var request = await _jobRequestRepository.AddAsync(jobRequest);
 
-        //send email notification to the job owner
+        await _emailService.SendEmailToJobOwner(jobOwner.Email, $"{user.FirstName} {user.LastName}", job.Name);
 
         return _mapper.Map<JobRequestDto>(request);
     }

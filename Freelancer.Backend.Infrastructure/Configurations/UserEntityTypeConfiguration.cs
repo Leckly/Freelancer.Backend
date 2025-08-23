@@ -35,6 +35,11 @@ namespace Freelancer.Backend.Infrastructure.Configurations
                 .HasForeignKey(d => d.RoleId)
                 .HasConstraintName("FK__User__RoleId__7E37BEF6");
 
+            builder.HasMany(x => x.Jobs).WithOne(j => j.User)
+                .HasForeignKey(x => x.UserId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("FK__Job__UserId__02084FDA");
+
             var passwordHasher = new PasswordHasher<User>();
 
             builder.HasData(new List<User>
