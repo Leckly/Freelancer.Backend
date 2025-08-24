@@ -30,4 +30,23 @@ public class JobRequestRepository : Repository<JobRequest>, IJobRequestRepositor
     {
         return await _dbSet.Where(predicate).Include(x => x.Job).ToListAsync();
     }
+
+    public async Task<IEnumerable<JobRequest>> GetAllWithUsersAsync(Expression<Func<JobRequest, bool>> predicate)
+    {
+        return await _dbSet.Where(predicate).Include(x => x.User).ToListAsync();
+    }
+
+    public async Task UpdateAsync(int userId, int jobId, JobRequest entity)
+    {
+        var jobRequest = await _dbSet.FirstOrDefaultAsync(x => x.UserId == userId && x.JobId == jobId);
+
+        if (jobRequest is null)
+        {
+            throw new EntityNotFoundApiException();
+        }
+
+        _context.Entry(jobRequest).CurrentValues.SetValues(entity);
+
+        await _context.SaveChangesAsync();
+    }
 }

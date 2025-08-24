@@ -4,6 +4,7 @@ using Freelancer.Backend.Business.Interfaces;
 using Freelancer.Backend.Domain;
 using Freelancer.Backend.Domain.Enums;
 using Freelancer.Backend.Infrastructure.Interfaces;
+using System.Net.Http.Headers;
 
 namespace Freelancer.Backend.Business.Services;
 
@@ -54,6 +55,13 @@ public class JobRequestService : IJobRequestService
         throw new NotImplementedException();
     }
 
+    public async Task<IEnumerable<JobRequestForJobDto>> GetAllForJobAsync(int jobId)
+    {
+        var jobRequests = await _jobRequestRepository.GetAllWithUsersAsync(x => x.JobId == jobId);
+
+        return jobRequests.Select(x => _mapper.Map<JobRequestForJobDto>(x));
+    }
+
     public async Task<IEnumerable<JobRequestDtoForProfile>> GetAllForUserAsync(int userId)
     {
         var jobRequests = await _jobRequestRepository.GetAllWithJobsAsync(x => x.UserId == userId);
@@ -74,6 +82,16 @@ public class JobRequestService : IJobRequestService
 
         request.Status = status;
 
-        await _jobRequestRepository.UpdateAsync(userId, request);
+        if (status == JobRequestStatus.Accepted)
+        {
+            var acceptedRequest = await _jobRequestRepository.GetByFilterAsync(x => x.JobId == jobId && x.Status == JobRequestStatus.Accepted);
+            if (acceptedRequest is not null)
+            {
+                acceptedRequest.Status = JobRequestStatus.Declined;
+                await _jobRequestRepository.UpdateAsync((int)acceptedRequest.UserId, jobId, acceptedRequest);
+            }
+        }
+
+        await _jobRequestRepository.UpdateAsync(userId, jobId, request);
     }
 }

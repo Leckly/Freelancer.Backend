@@ -24,6 +24,13 @@ namespace Freelancer.Backend.API.Controllers
             return Ok(jobRequests);
         }
 
+        [HttpGet("{jobId}/jobs")]
+        public async Task<IActionResult> GetAllForJob(int jobId)
+        {
+            var jobRequests = await _jobRequestService.GetAllForJobAsync(jobId);
+            return Ok(jobRequests);
+        }
+
         [HttpPost]
         public async Task<IActionResult> AddAsync([FromBody] JobRequestAddRequest jobRequestAddRequest)
         {
