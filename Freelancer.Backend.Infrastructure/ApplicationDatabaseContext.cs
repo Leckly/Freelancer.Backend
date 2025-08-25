@@ -1,4 +1,5 @@
 ﻿using Freelancer.Backend.Domain;
+using Freelancer.Backend.Domain.Entities;
 using Freelancer.Backend.Infrastructure.Configurations;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,6 +27,8 @@ public partial class ApplicationDatabaseContext : DbContext
     public virtual DbSet<User> Users { get; set; }
 
     public virtual DbSet<JobRequest> JobRequests { get; set; }
+
+    public virtual DbSet<ChatMessage> ChatMessages { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -1,4 +1,5 @@
 using Freelancer.Backend.API.ExceptionHandling;
+using Freelancer.Backend.API.Hubs;
 using Freelancer.Backend.Business.Mapping;
 using Freelancer.Backend.CompositionRoot;
 using Freelancer.Backend.Infrastructure.Configurations;
@@ -9,7 +10,6 @@ using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("LocalDb");
 builder.Services.AddServices(connectionString ?? throw new ArgumentNullException());
 
@@ -46,6 +46,8 @@ builder.Services.AddCors(options =>
         });
 });
 
+builder.Services.AddSignalR();
+
 builder.Services.AddControllers();
 
 builder.Host.UseSerilog((context, logConf) =>
@@ -57,7 +59,6 @@ builder.Host.UseSerilog((context, logConf) =>
 });
 builder.Services.AddAutoMapper(typeof(BusinessMappingProfile));
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -67,7 +68,8 @@ builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+app.MapHub<ChatHub>("/api/chathub");
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
