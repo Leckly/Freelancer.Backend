@@ -26,8 +26,32 @@ namespace Freelancer.Backend.Business.Services
             email.Subject = emailDto.Subject;
 
             var body = @$"
-            <h1>From: {emailDto.From}</h1>
-            {emailDto.Body}
+            <!doctype html>
+            <html lang=""en"">
+            <head>
+                <meta charset=""utf-8"">
+                <meta name=""viewport"" content=""width=device-width,initial-scale=1"">
+                <title>New Contact Message</title>
+                <style>
+                body {{ margin:0; padding:0; background:#f5f7fb; font-family:Arial, sans-serif; }}
+                .container {{ max-width:600px; margin:20px auto; background:#fff; padding:20px; border-radius:8px; }}
+                h2 {{ margin:0 0 12px; font-size:20px; color:#111827; }}
+                .info {{ margin:4px 0; font-size:14px; }}
+                .msg {{ margin-top:12px; padding:12px; background:#f9fafb; border:1px solid #e5e7eb; border-radius:6px; font-size:14px; white-space:pre-wrap; }}
+                a.btn {{ display:inline-block; margin-top:16px; padding:10px 16px; background:#3b82f6; color:#fff; text-decoration:none; border-radius:6px; font-weight:bold; font-size:14px; }}
+                </style>
+            </head>
+            <body>
+                <div class=""container"">
+                <h2>📩 New Contact Message</h2>
+                <p class=""info""><strong>From:</strong> {emailDto.From}</p>
+                <div class=""msg"">{emailDto.Body}</div>
+                <a class=""btn"">
+                    Reply
+                </a>
+                </div>
+            </body>
+            </html>
             ";
 
             email.Body = new TextPart(TextFormat.Html) { Text = body };
