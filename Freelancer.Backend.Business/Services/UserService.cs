@@ -207,6 +207,7 @@ namespace Freelancer.Backend.Business.Services
             user.Krs = userDTO.Krs;
             user.Description = userDTO.Description;
             user.Tags = userDTO.Tags;
+            user.Country = userDTO.Country;
 
             await _userRepository.UpdateAsync(id, user);
         }
