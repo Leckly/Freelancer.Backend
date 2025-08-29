@@ -363,6 +363,22 @@ namespace Freelancer.Backend.Infrastructure.Configurations
                     CompanyName = "ContentLab",
                     RoleId = 2,
                     Tags = ["Copywriting", "Social Media", "Marketing", "Storytelling", "Branding", "Creative"]
+                },
+                new User
+                {
+                    Id = 21,
+                    Email = "admin@admin.com",
+                    PasswordHash = passwordHasher.HashPassword(default, "admin123!"),
+                    FirstName = "Admin",
+                    LastName = "Admin",
+                    Nip = "0000000000",
+                    Krs = "0000000000",
+                    Address = "Warsaw",
+                    Description = "Admim",
+                    Country = "Poland",
+                    CompanyName = "Admin",
+                    RoleId = 3,
+                    Tags = ["Admin"]
                 }
             });
         }
