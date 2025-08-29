@@ -77,6 +77,16 @@ namespace Freelancer.Backend.API.Controllers
             return Ok(users);
         }
 
+        [HttpGet("forAdmin")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(typeof(IDictionary<string, string>), 400)]
+        [ProducesResponseType(500)]
+        public async Task<IActionResult> GetAllUsersForAdmin([FromQuery] int skip, [FromQuery] int take)
+        {
+            var users = await _userService.GetAllForAdminAsync(skip, take);
+            return Ok(users);
+        }
+
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(typeof(IDictionary<string, string>), 400)]

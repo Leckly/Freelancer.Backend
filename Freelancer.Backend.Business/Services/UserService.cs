@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
+using System.Net.WebSockets;
 using System.Security.Claims;
 
 namespace Freelancer.Backend.Business.Services
@@ -333,6 +334,13 @@ namespace Freelancer.Backend.Business.Services
                     await _photoContentRepository.SaveUserPhotoAsync(user.Photo.Name, content);
                 }
             }
+        }
+
+        public async Task<IEnumerable<UserDTO>> GetAllForAdminAsync(int skip, int take)
+        {
+            var users = await _userRepository.GetAllWithIncludesAsync();
+
+            return users.Skip(skip).Take(take).Select(x => _mapper.Map<UserDTO>(x)).ToList();
         }
     }
 }
