@@ -342,7 +342,7 @@ namespace Freelancer.Backend.Business.Services
 
             var id = _httpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
 
-            return users.Where(x => x.Id == int.Parse(id)).Skip(skip).Take(take).Select(x => _mapper.Map<UserDTO>(x)).ToList();
+            return users.Where(x => x.Id != int.Parse(id)).Skip(skip).Take(take).Select(x => _mapper.Map<UserDTO>(x)).ToList();
         }
     }
 }
