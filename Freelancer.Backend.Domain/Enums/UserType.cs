@@ -3,6 +3,7 @@
     public enum UserType
     {
         Employee = 1,
-        Employer = 2
+        Employer = 2,
+        Admin = 3
     }
 }

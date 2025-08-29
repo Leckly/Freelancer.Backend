@@ -56,7 +56,7 @@ namespace Freelancer.Backend.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, JobUpdateRequest jobDto)
+        public async Task<IActionResult> Update(int id, [FromBody] JobUpdateRequest jobDto)
         {
             await _jobService.UpdateAsync(id, jobDto);
             return Ok();

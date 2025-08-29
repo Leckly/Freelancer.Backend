@@ -23,6 +23,11 @@ namespace Freelancer.Backend.Infrastructure.Configurations
                 {
                     Id = 2,
                     Name = "Employer"
+                },
+                new Role()
+                {
+                    Id = 3,
+                    Name = "Admin"
                 }
             });
         }
